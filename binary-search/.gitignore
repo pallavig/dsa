@@ -1,0 +1,5 @@
+*.exe
+*.o
+*.core
+createScaffold.sh
+bsearchTestRunner.c
