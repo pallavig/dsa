@@ -54,7 +54,7 @@ Node* remove(List *list, int index){
 	Node* nodeToDelete;
 	Node* node;
 	nodeToDelete = list->head;
-	if(index<=0) return NULL;
+	if(index<=0 || (!nodeToDelete)) return NULL;
 	for(i=1;i<index;i++)
 		nodeToDelete = nodeToDelete->next;
 	if(NULL == nodeToDelete->previous){

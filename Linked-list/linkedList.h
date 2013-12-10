@@ -15,3 +15,4 @@ int insert(List* list,void* element,int index);
 Node* remove(List* list,int index);
 void dispose(List* list);
 int length(List* list);
+Node* setLinksToNULL(Node* node);

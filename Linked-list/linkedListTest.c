@@ -209,6 +209,10 @@ void test_when_zero_index_is_given_to_delete(){
 	ASSERT(NULL == remove(list,0));
 };
 
+void test_deletion_from_empty_list_should_return_nothing(){
+	ASSERT(NULL == remove(list,1));
+}
+
 void test_length_of_empty_linked_list(){
 	ASSERT(0 == length(list));
 };
