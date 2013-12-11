@@ -59,4 +59,4 @@ Node* remove(pQueue *pqueue){
 	pqueue->head = pqueue->head->next;
 	node->next = NULL;
 	return node;
-}
+};

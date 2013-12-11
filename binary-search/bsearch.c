@@ -12,4 +12,4 @@ ConstVoidPtr bsearch(ConstVoidPtr key,ConstVoidPtr base,int nitems,int size,int 
 		if(found > 0) start = middle+1;
 	}
 	return NULL;
-}
+};
