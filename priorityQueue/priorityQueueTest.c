@@ -11,7 +11,7 @@ void test_creation_of_priority_queue(){
 
 void test_inserting_first_process(){
 	pQueue* pqueue = create();
-	insert(pqueue,"gcc",1,10);
+	insert(pqueue,"gcc",1,10,0);
 	ASSERT(0 == pqueue->head->attempts);
 	ASSERT(1 == pqueue->head->priority);
 	ASSERT(10 == pqueue->head->time);
@@ -21,8 +21,8 @@ void test_inserting_first_process(){
 
 void test_inserting_two_nodes_with_second_of_higher_priority(){
 	pQueue* pqueue = create();
-	insert(pqueue,"browser",2,10);
-	insert(pqueue,"gcc",1,20);
+	insert(pqueue,"browser",2,10,0);
+	insert(pqueue,"gcc",1,20,0);
 	ASSERT(0 == strcmp(pqueue->head->name,"gcc"));
 	ASSERT(0 == pqueue->head->attempts);
 	ASSERT(1 == pqueue->head->priority);
@@ -35,8 +35,8 @@ void test_inserting_two_nodes_with_second_of_higher_priority(){
 
 void test_inserting_two_nodes_with_second_of_lower_priority(){
 	pQueue* pqueue = create();
-	insert(pqueue,"browser",1,10);
-	insert(pqueue,"gcc",2,20);
+	insert(pqueue,"browser",1,10,0);
+	insert(pqueue,"gcc",2,20,0);
 	ASSERT(0 == strcmp(pqueue->head->name,"browser"));
 	ASSERT(0 == pqueue->head->attempts);
 	ASSERT(1 == pqueue->head->priority);
@@ -49,20 +49,30 @@ void test_inserting_two_nodes_with_second_of_lower_priority(){
 
 void test_inserting_in_between(){
 	pQueue* pqueue = create();
-	insert(pqueue,"browser",1,10);
-	insert(pqueue,"gcc",3,20);
-	insert(pqueue,"main",2,30);
+	insert(pqueue,"browser",1,10,0);
+	insert(pqueue,"gcc",3,20,0);
+	insert(pqueue,"main",2,30,0);
 	ASSERT(0 == strcmp(pqueue->head->name,"browser"));
 	ASSERT(0 == strcmp(pqueue->head->next->name,"main"));
 	ASSERT(0 == strcmp(pqueue->head->next->next->name,"gcc"));
+	free(pqueue);
+};
+
+void test_inserting_two_processes_of_same_priority(){
+	pQueue* pqueue = create();
+	insert(pqueue,"gcc",3,20,0);
+	insert(pqueue,"main",3,30,0);
+	ASSERT(0 == strcmp(pqueue->head->name,"gcc"));
+	ASSERT(0 == strcmp(pqueue->head->next->name,"main"));
+	// ASSERT(0 == strcmp(pqueue->head->next->next->name,"main"));	
 };
 
 void test_removing_node(){
 	Node* node;
 	pQueue* pqueue = create();
-	insert(pqueue,"browser",2,10);
-	insert(pqueue,"gcc",1,20);
+	insert(pqueue,"browser",2,10,0);
+	insert(pqueue,"gcc",1,20,0);
 	node = remove(pqueue);
 	ASSERT(node->next == NULL);
 	ASSERT(0 == strcmp("gcc",node->name));
-}
+};

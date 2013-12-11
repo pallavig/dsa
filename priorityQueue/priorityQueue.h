@@ -11,5 +11,5 @@ typedef struct {
 } pQueue;
 
 pQueue* create();
-void insert(pQueue* pqueue,char* name,int priority,int time);
+void insert(pQueue* pqueue,char* name,int priority,int time,int attempts);
 Node* remove(pQueue* pqueue);

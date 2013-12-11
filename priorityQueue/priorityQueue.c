@@ -6,12 +6,13 @@ pQueue* create(){
 	return pqueue;
 };
 
-Node* createNode(char* name,int priority,int time){
+Node* createNode(char* name,int priority,int time,int attempts){
 	Node* node = calloc(1,sizeof(Node));
 	node->attempts = 0;
 	strcpy(node->name,name);
 	node->priority = priority;
 	node->time = time;
+	node->attempts = attempts;
 	return node;
 }
 
@@ -25,9 +26,9 @@ void insertAfterSpecifiedNode(Node* nodeToInsert,Node* node,pQueue* pqueue){
 	node->next = nodeToInsert;	
 }
 
-void insert(pQueue* pqueue,char* name,int priority,int time){
+void insert(pQueue* pqueue,char* name,int priority,int time,int attempts){
 	Node* node,*pv;
-	Node* nodeToInsert = createNode(name,priority,time);
+	Node* nodeToInsert = createNode(name,priority,time,attempts);
 	if(NULL == pqueue->head){
 		pqueue->head = nodeToInsert; pqueue->length++;
 		return;
@@ -36,6 +37,10 @@ void insert(pQueue* pqueue,char* name,int priority,int time){
 	while(node!=NULL){
 		if(node->priority < nodeToInsert->priority)
 			break;
+		if(node->priority == nodeToInsert->priority){
+			insertAfterSpecifiedNode(nodeToInsert,node,pqueue);
+			return;
+		}
 		pv = node;
 		node = node->next;
 	}
