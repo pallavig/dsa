@@ -49,3 +49,8 @@ void* top(Stack* stack){
 	memcpy(topElement,stack->base + offset, stack->typeSize);
 	return topElement;
 };
+
+void dispose(Stack* stack){
+	free(stack->base)	;
+	free(stack);
+}

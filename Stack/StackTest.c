@@ -14,11 +14,6 @@ int areEqual(Stack* actual,Stack* expected){
 	return 0==res;
 };
 
-void dispose(Stack* stack){
-	free(stack->base);
-	free(stack);
-};
-
 int checkStackElements(Stack* stack,void* elements,int top){
 	int i=0;
 	if(stack->top != top)

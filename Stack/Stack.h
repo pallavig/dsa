@@ -14,3 +14,6 @@ Stack* New(int typeSize,int size);
 int push(Stack* stack,void* element);
 void* pop(Stack* stack);
 void* top(Stack* stack);
+void dispose(Stack* stack);
+
+//dispose functionality added
