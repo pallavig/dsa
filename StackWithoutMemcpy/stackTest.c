@@ -3,121 +3,114 @@
 #include <stdlib.h>
 #include <string.h>
 
-Stack* stack;
-
-void dispose(Stack* stack){
-	free(stack->base);
-	free(stack);
-};
-
-void setup(){
-	stack = create(3);
-};
-
-void tearDown(){
-	dispose(stack);
-};
-
-int areEqual(Stack expected, Stack actual){
-    int result = expected.size == actual.size && expected.top == actual.top;
-    if(!result) return result;
-    return 0 == memcmp(expected.base,actual.base,expected.size*sizeof(void*));
-};
-
 void test_creation_of_stack(){
-    void* array[3] = {NULL,NULL,NULL};
-    Stack expected = {array,-1,3};
-    ASSERT(areEqual(expected, *stack));
+	Stack *pStack = create(3);
+	ASSERT(pStack->top == -1);
+	ASSERT(pStack->size == 3);
+	dispose(pStack);
 };
 
 void test_push_integer(){
-	int *element = malloc(sizeof(int));
-	*element = 10;
-	push(stack,element);
-	ASSERT(*element == **(int**)getElement(stack,0));
-	free(element);
+	Stack *pStack = create(3);
+	void* topElement;
+	int element = 10;
+	push(pStack,&element);
+	topElement = top(pStack);
+	ASSERT(element == *(int*)topElement);
+	dispose(pStack);
 };
 
 void test_push_two_integers(){
-	int *element = malloc(sizeof(int)*2);
-	element[0] = 1;element[1] = 2;
-	push(stack,&element[0]);
-	push(stack,&element[1]);
-	ASSERT(element[0] == **(int**)getElement(stack,0));
-	ASSERT(element[1] == **(int**)getElement(stack,1));
-	free(element);
+	Stack *pStack = create(3);
+	void *topElement;
+	int element1 = 10,element2 = 20;
+	push(pStack,&element1);
+	topElement = top(pStack);
+	ASSERT(element1 == *(int*)top(pStack));
+	push(pStack,&element2);
+	ASSERT(element2 == *(int*)top(pStack));
+	dispose(pStack);
 };
 
 void test_pushing_an_character_in_stack(){
-	char *elementToPush = malloc(sizeof(char));
-	*elementToPush = 'a';
-	push(stack,elementToPush);
-	ASSERT(0 == stack->top);
-	ASSERT(*elementToPush == **(char**)getElement(stack,0));
-	free(elementToPush);
+	Stack *pStack = create(3);
+	void *topElement;
+	char element = 'a';
+	push(pStack,&element);
+	ASSERT(element == *(char*)top(pStack));
+	dispose(pStack);
 };
 
 void test_pushing_an_float_in_stack(){
-	float *elementToPush = malloc(sizeof(float));
-	*elementToPush = 10.5f;
-	push(stack,elementToPush);
-	ASSERT(0 == stack->top);
-	ASSERT(*elementToPush == **(float**)getElement(stack,0));
-	free(elementToPush);
+	Stack *pStack = create(1);
+	float element = 10.5f;
+	push(pStack,&element);
+	ASSERT(element == *(float*)top(pStack));
+	dispose(pStack);
 };
 
-
 void test_pushing_an_double_in_stack(){
-	double* elementToPush = malloc(sizeof(double));
-	*elementToPush = 10.5;
-	push(stack,elementToPush);
-	ASSERT(0 == stack->top);
-	ASSERT(*elementToPush == **(double**)getElement(stack,0));
-	free(elementToPush);
+	Stack *pStack = create(2);
+	double element = 10;
+	push(pStack,&element);
+	ASSERT(element == *(double*)top(pStack));
+	dispose(pStack);
 };
 
 void test_pushing_an_String_in_stack(){
-	String* elementToPush = malloc(sizeof(String));
-	strcpy((char*)elementToPush,"abcd");
-	push(stack,elementToPush);
-	ASSERT(0 == stack->top);
-	ASSERT(0 == strcmp((char*)elementToPush,*(char**)getElement(stack,0)));
-	free(elementToPush);
+	Stack *pStack = create(2);
+	String element = "abcd";
+	push(pStack,&element);
+	ASSERT(0 == strcmp(element,(char*)top(pStack)));
+	dispose(pStack);
 };
 
 void test_pushing_elements_equal_to_size_of_stack(){
-	int *element = malloc(sizeof(int)*3);
-	element[0] = 1;element[1] = 2;element[2] = 3;
-	push(stack,&element[0]);
-	push(stack,&element[1]);
-	push(stack,&element[2]);
-	ASSERT(element[0] == **(int**)getElement(stack,0));
-	ASSERT(element[1] == **(int**)getElement(stack,1));
-	ASSERT(element[2] == **(int**)getElement(stack,2));
-	free(element);	
+	Stack *pStack = create(2);
+	int element1 = 10,element2 = 20,element3 = 30;
+	push(pStack,&element1);
+	push(pStack,&element2);
+	push(pStack,&element3);
+	ASSERT(element3 == *(int*)pop(pStack));
+	ASSERT(element2 == *(int*)pop(pStack));
+	ASSERT(element1 == *(int*)pop(pStack));
+	dispose(pStack);
 };
 
-// void test_pushing_elements_when_stack_is_full(){
-// 	char *elementToPush = malloc(sizeof(char)*4);
-// 	elementToPush[0] = 'a';elementToPush[1] = 'b';elementToPush[2] = 'c';
-// 	elementToPush[3] = 'd';
-// 	push(stack,&elementToPush[0]);
-// 	push(stack,&elementToPush[1]);
-// 	push(stack,&elementToPush[2]);
-// 	push(stack,&elementToPush[3]);
-// 	ASSERT(elementToPush[0] == **(char**)getElement(stack,0));
-// 	ASSERT(elementToPush[1] == **(char**)getElement(stack,1));
-// 	ASSERT(elementToPush[2] == **(char**)getElement(stack,2));
-// 	ASSERT(elementToPush[3] == **(char**)getElement(stack,3));
-// 	free(elementToPush);	
-// };
+void test_pushing_elements_when_stack_is_full(){
+	Stack *pStack = create(2);
+	char element1 = 'a',element2 = 'b',element3 = 'c',element4 = 'd';
+	push(pStack,&element1);
+	push(pStack,&element2);
+	push(pStack,&element3);
+	push(pStack,&element4);
+	ASSERT(element4 == *(char*)pop(pStack));
+	ASSERT(element3 == *(char*)pop(pStack));
+	ASSERT(element2 == *(char*)pop(pStack));
+	ASSERT(element1 == *(char*)pop(pStack));
+	dispose(pStack);
+};
 
-void test_popping_an_integer(){
-	void* poppedElement;
-	int *element = malloc(sizeof(int));
-	*element = 10;
-	push(stack,element);
-	poppedElement = pop(stack);
-	ASSERT(10 == *(int*)poppedElement);
-	ASSERT(-1 == stack->top);
+void test_popping_one_integer_when_two_are_present(){
+	Stack *pStack = create(2);
+	int element1 = 10,element2 = 20;
+	push(pStack,&element1);
+	push(pStack,&element2);
+	ASSERT(element2 == *(int*)pop(pStack));
+	ASSERT(element1 == *(int*)top(pStack));
+	dispose(pStack);
+};
+
+void test_popping_from_an_empty_stack(){
+	Stack *pStack = create(2);
+	char element = 'a';
+	push(pStack,&element);
+	ASSERT(element == *(char*)pop(pStack));
+	ASSERT(NULL == pop(pStack));
+	dispose(pStack);
+};
+
+void test_getting_top_element_from_empty_stack(){
+	Stack *pStack = create(3);
+	ASSERT(NULL == top(pStack));
 };

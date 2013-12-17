@@ -5,7 +5,8 @@ typedef struct {
 } Stack;
 
 typedef char String[256];
-void** getElement(Stack* stack,int top);
 Stack* create(int size);
-int push(Stack* stack,void* element);
-void* pop(Stack *stack);
+int push(Stack* pStack,void* element);
+void* pop(Stack *pStack);
+void* top(Stack* pStack);
+void dispose(Stack* pStack);
