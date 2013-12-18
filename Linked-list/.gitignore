@@ -1,0 +1,7 @@
+createScaffold.sh
+*.o
+*.exe
+doubts
+*.core
+linkedListTestRunner.c
+check.c

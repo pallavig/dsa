@@ -1,0 +1,6 @@
+createScaffold.sh
+*.o
+*.exe
+*.core
+circularQueueTestRunner.c
+doubts

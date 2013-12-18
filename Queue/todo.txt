@@ -1,0 +1,2 @@
+->Create structure with front and rear and one void pointer pointing to start of array
+->Write create function taking typesize and length and return Queue object
