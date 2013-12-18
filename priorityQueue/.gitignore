@@ -1,5 +1,0 @@
-*.o
-*.exe
-*.core
-createScaffold.sh
-priorityQueueTestRunner.c
