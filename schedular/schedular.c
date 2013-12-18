@@ -15,7 +15,3 @@ int runProcesses(void *pqueue){
 	}
 	return result;
 };
-
-//handle when time is more
-//if one process captures whole cpu time
-//each indiviual process should have one assert to count
