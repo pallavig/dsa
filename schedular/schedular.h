@@ -1,2 +1,5 @@
-#include "D:/workspace/dsa/priorityQueue/priorityQueue.h"
-pQueue* runProcesses(pQueue* pqueue);
+typedef struct {
+	char name[20];
+	int time;
+} Process;
+int runProcesses(void* pqueue);
