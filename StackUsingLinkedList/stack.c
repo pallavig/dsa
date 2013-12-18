@@ -8,22 +8,24 @@ Stack* createStack(){
 };
 
 void push(Stack* stack,void* element){
-	insert(stack->list,element,1);
+	insert(stack->list,element,stack->list->length+1);
 };
 
 Node* pop(Stack* stack){
 	Node* node;
 	if(stack->list->head == NULL) return NULL;
-	node = remove(stack->list,1);
+	node = remove(stack->list,stack->list->length);
 	return node;
 };
 
 Node* top(Stack* stack){
 	Node* node;
+	Node* removedElement;
 	if(stack->list->head == NULL) return NULL;
 	node = calloc(1,sizeof(Node));
-	memcpy(node,stack->list->head,sizeof(Node));
-	node = setLinksToNULL(node);
+	removedElement = pop(stack);
+	memcpy(node,removedElement,sizeof(Node));
+	push(stack,removedElement->data);
 	return node;
 };
 
