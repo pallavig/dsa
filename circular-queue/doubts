@@ -1,0 +1,1 @@
+String exp_arr[] = {"abc",0.0f,0.0f}; // "abc" instead of element

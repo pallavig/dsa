@@ -1,0 +1,4 @@
+//handle when time is more
+//if one process captures whole cpu time
+//each indiviual process should have one assert to count
+//what if time is not multiple of 10

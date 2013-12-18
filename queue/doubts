@@ -1,0 +1,26 @@
+void test_inserting_an_String_element_in_queue(){
+	Queue* actual = create(sizeof(String),3);
+	char element[256] = "abc";
+	String exp_arr[] = {"abc","",""};
+	int res = enQueue(actual,&element);
+	Queue expected = {exp_arr,1,3,sizeof(String)};
+	ASSERT(res == 1);
+	ASSERT(compareQueue(actual,&expected));
+}
+String exp_arr[] = {"abc","",""};
+ writing it as
+ String exp_arr[] = {element,"",""};
+ gives error
+ 	initializing character with an expression of String
+
+
+
+
+ASSERT(0 == strcmp("abc",*firstElement));
+why cant be like ASSERT(0 == strcmp(element1,firstElement));
+
+
+
+memmove(queue->base,queue->base+queue->elementSize,(queue->queueCapacity-1)*queue->elementSize);
+why cant be
+memmove(queue->base,queue->base+queue->elementSize,queue->rear*queue->elementSize);
