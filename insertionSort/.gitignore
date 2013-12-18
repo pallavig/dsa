@@ -1,5 +1,0 @@
-*.o
-*.exe
-*.core
-isortTestRunner.c
-createScaffold.sh

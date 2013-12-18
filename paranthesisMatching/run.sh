@@ -1,1 +1,0 @@
-sh runTest.sh parathesis.c -need:/c/Users/pallavig/Dropbox/step_pallavi/cWorkspace/arrayUtil/arrayUtilLib.c -need:/c/Users/pallavig/Dropbox/step_pallavi/cWorkspace/stack/Stack.c

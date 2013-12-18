@@ -1,6 +1,0 @@
-*.exe
-*.core
-*.o
-createScaffold.sh
-stackTestRunner.c
-doubts
