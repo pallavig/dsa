@@ -1,1 +1,0 @@
-int areParanthesisCorrect(char* data);

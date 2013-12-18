@@ -1,6 +1,0 @@
-*.exe
-*.o
-*.core
-createScaffold.sh
-QueueTestRunner.c
-doubts
