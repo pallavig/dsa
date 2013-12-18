@@ -1,19 +1,12 @@
 typedef struct {
-	void* base;
+	void** base;
 	int top;
 	int size;
-	int typeSize;
 } Stack;
 
 typedef char String[256];
-
-int isFull(Stack* stack);
-int isEmpty(Stack* stack);
-
-Stack* New(int typeSize,int size);
-int push(Stack* stack,void* element);
-void* pop(Stack* stack);
-void* top(Stack* stack);
-void dispose(Stack* stack);
-
-//dispose functionality added
+Stack* create(int size);
+int push(Stack* pStack,void* element);
+void* pop(Stack *pStack);
+void* top(Stack* pStack);
+void dispose(Stack* pStack);

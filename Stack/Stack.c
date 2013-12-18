@@ -1,56 +1,54 @@
-#include "Stack.h"
+#include "stack.h"
 #include <stdlib.h>
-#include <string.h>
 
-Stack* New(int typeSize,int size){
-	Stack *stack = (Stack*)calloc(1,sizeof(Stack));
-	stack->typeSize = typeSize;
-	stack->base = calloc(size,typeSize);
-	stack->size = size;
-	stack->top = (-1);
-	return stack;
+Stack* create(int size){
+    Stack* pStack = calloc(sizeof(Stack), 1);
+    pStack->base = calloc(sizeof(void*), size);
+    pStack->top = -1;
+    pStack->size = size;
+    return pStack;
 };
 
-int isFull(Stack* stack){
-	return ((stack->top+1) == stack->size);
+int isFull(Stack* pStack){
+    return pStack->top+1 == pStack->size;
 };
 
-int push(Stack* stack,void* element){
-	int offset;
-	if(isFull(stack))
-		return 0;
-	stack->top = stack->top + 1;
-	offset = stack->top*stack->typeSize;
-	memcpy(stack->base+offset,element,stack->typeSize);
-	return 1;
+int push(Stack* pStack,void* element){
+    void *temp;
+    if(isFull(pStack)){
+        pStack->size = pStack->size*2;
+        temp = realloc(pStack->base,pStack->size*sizeof(void*));
+        if(!temp)
+        	return 0;
+        pStack->base = temp;
+
+    }
+    pStack->top++;
+    *(pStack->base + pStack->top) = element;
+    return 1;
 };
 
-int isEmpty(Stack* stack){
-	return ((stack->top) == -1);
+int isEmpty(Stack* pStack){
+    return -1 == pStack->top;
+};
+
+void* top(Stack* pStack){
+    void *topElement;
+    if(isEmpty(pStack))
+        return NULL;
+    topElement = *(pStack->base+pStack->top);
+    return topElement;
 };
 
 void* pop(Stack *stack){
-	void* poppedElement = malloc(stack->typeSize);
-	int offset;
-	if(isEmpty(stack))
-		return NULL;
-	offset = stack->top*stack->typeSize;
-	memcpy(poppedElement,stack->base + offset, stack->typeSize);
-	stack->top = stack->top - 1;
-	return poppedElement;
-};
-
-void* top(Stack* stack){
-	void* topElement = malloc(stack->typeSize);
-	int offset;
-	if(isEmpty(stack))
-		return NULL;
-	offset = stack->top*stack->typeSize;
-	memcpy(topElement,stack->base + offset, stack->typeSize);
-	return topElement;
+    void *topElement;
+    topElement = top(stack);
+    if(topElement != NULL)
+        stack->top--;
+    return topElement;
 };
 
 void dispose(Stack* stack){
-	free(stack->base)	;
-	free(stack);
-}
+    free(stack->base);
+    free(stack);
+};

@@ -2,4 +2,4 @@
 *.exe
 *.core
 createScaffold.sh
-stackTestRunner.c
+pQueueTestRunner.c
