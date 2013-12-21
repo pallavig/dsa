@@ -29,5 +29,5 @@ void enQueue(void* pqueue,void* data,int priority){
 void* deQueue(void* pqueue){
 	void* deletedElement;
 	deletedElement = remove(pqueue,1);
-	return (deletedElement)?((Node*)deletedElement)->data:NULL;
+	return (deletedElement)?deletedElement:NULL;
 };

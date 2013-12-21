@@ -11,21 +11,21 @@ void push(Stack* stack,void* element){
 	insert(stack->list,element,stack->list->length+1);
 };
 
-Node* pop(Stack* stack){
-	Node* node;
+void* pop(Stack* stack){
+	void* node;
 	if(stack->list->head == NULL) return NULL;
 	node = remove(stack->list,stack->list->length);
 	return node;
 };
 
-Node* top(Stack* stack){
-	Node* node;
-	Node* removedElement;
+void* top(Stack* stack){
+	void* node;
+	void* removedElement;
 	if(stack->list->head == NULL) return NULL;
 	node = calloc(1,sizeof(Node));
 	removedElement = pop(stack);
 	memcpy(node,removedElement,sizeof(Node));
-	push(stack,removedElement->data);
+	push(stack,removedElement);
 	return node;
 };
 

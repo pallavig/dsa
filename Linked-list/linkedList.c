@@ -17,7 +17,7 @@ Node* createNode(void* data){
 int insertAtBeginning(Node* nodeToInsert,List* list){
 	list->length++;
 	nodeToInsert->next = list->head;
-	list->head->previous = nodeToInsert;
+	((Node*)(list->head))->previous = nodeToInsert;
 	list->head = nodeToInsert;
 	return 1;
 };
@@ -75,17 +75,24 @@ Node* removeNode(Node* nodeToDelete){
 	return setLinksToNULL(nodeToDelete);
 };
 
-Node* remove(List *list, int index){
+void* remove(List *list, int index){
 	int i;
 	Node* nodeToDelete;
+	void* data;
 	nodeToDelete = list->head;
 	if(index<=0 || (!nodeToDelete)) return NULL;
 	for(i=1;i<index;i++)
 		nodeToDelete = nodeToDelete->next;
 	list->length--;
-	if(NULL == nodeToDelete->previous)
-		return removeFromBeginning(list);
-	return removeNode(nodeToDelete);
+	if(NULL == nodeToDelete->previous){
+		data = removeFromBeginning(list)->data;
+		free(nodeToDelete);
+		return data;
+	}
+	data = removeNode(nodeToDelete)->data;
+	free(nodeToDelete);
+	return data;
+	// return data;
 };
 
 void* getElement(List* list,int index){

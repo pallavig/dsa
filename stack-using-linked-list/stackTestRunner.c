@@ -99,11 +99,6 @@ int main(){
 		test_popping_String_from_stack();
 	tearDown();
 	testEnded();
-	testStarted("test_poppig_structure_from_stack");
-	setup();
-		test_poppig_structure_from_stack();
-	tearDown();
-	testEnded();
 	testStarted("test_popping_from_an_empty_stack");
 	setup();
 		test_popping_from_an_empty_stack();

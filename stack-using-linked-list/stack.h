@@ -5,6 +5,6 @@ typedef struct {
 
 Stack* createStack();
 void push(Stack* stack,void* element);
-Node* pop(Stack* stack);
-Node* top(Stack* stack);
+void* pop(Stack* stack);
+void* top(Stack* stack);
 void disposeStack(Stack* stack);
