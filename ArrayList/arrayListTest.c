@@ -1,16 +1,25 @@
 #include <stdlib.h>
 #include "testUtils.h"
 #include "arrayList.h"
+#include <string.h>
 
 const int SUCCESS = 1;
 const int FAILURE = 0;
 
 //create setup, tearDown, fixtureSetup, fixtureTearDown methods if needed
+
 typedef struct {
 	int id;
 	char* name;
 	int age;
 } Intern;
+
+int compareStruct(void* first,void* second){
+	Intern *intern1 = (Intern*)first, *intern2 = (Intern*)second;	
+	return (intern1->age == intern2->age) &&
+		(intern1->id == intern2->id) && 
+		(0 == strcmp(intern1->name,intern2->name));
+};
 
 Intern prateek = {15386, "Prateek", 18};
 Intern ji = {13432, "Immortal", 17};	
@@ -146,4 +155,52 @@ void test_adding_when_list_is_null(){
 	int result;
 	result = add(NULL,&prateek);
 	ASSERT(FAILURE == result);
+};
+
+void test_searching_element(){
+	int result;	
+	insert(internsPtr, 0, &prateek);
+	result = search(internsPtr,&prateek,compareStruct);
+	ASSERT(0 == result);
+};
+
+void test_searching_middle_element(){
+	int result;
+	Intern tanbirka = {43343, "Tanbir Ka"};
+	insert(internsPtr, 0, &prateek);
+	insert(internsPtr, 1, &ji);
+	insert(internsPtr, 2, &tanbirka);
+	result = search(internsPtr,&ji,compareStruct);
+	ASSERT(1 == result);
+};
+
+void test_searching_absent_element_should_fail(){
+	int result;
+	Intern tanbirka = {43343, "Tanbir Ka"};
+	insert(internsPtr, 0, &prateek);
+	result = search(internsPtr,&tanbirka,compareStruct);
+	ASSERT(-1 == result);
+};
+
+void test_searching_when_list_is_null_should_fail(){
+	int result;
+	result = search(NULL,&prateek, compareStruct);
+	ASSERT(-1 == result);
+};
+
+void test_getting_iterator_of_list(){
+	Iterator it;
+	insert(internsPtr, 0, &prateek);
+	insert(internsPtr, 1, &ji);
+	it = getIterator(internsPtr);
+	ASSERT(1 == it.hasNext(&it));
+};
+
+void test_getting_next_element_through_iterator(){
+	Iterator it;
+	insert(internsPtr, 0, &prateek);
+	insert(internsPtr, 1, &ji);
+	it = getIterator(internsPtr);
+	ASSERT(&prateek == it.next(&it));
+	ASSERT(&ji == it.next(&it));
 };

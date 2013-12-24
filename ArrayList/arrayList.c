@@ -11,11 +11,9 @@ ArrayList create(int capacity) {
 
 void shiftElementsIfNeeded(ArrayList *list, int index) {
 	int i;
-	if (index < list->length) {
-		for (i = list->length - 1; i >= index; i--) {
-			list->base[i+1] = list->base[i];
-		}
-	}	
+	for (i = list->length - 1; i >= index; i--) {
+		list->base[i+1] = list->base[i];
+	}
 }
 
 int isFull(ArrayList *list) {
@@ -53,19 +51,51 @@ int add(ArrayList *list,void *data){
 int remove(ArrayList *list,int index){
 	int i;
 	if(index > list->length-1 || index < 0) return 0;
-	if(index < list->length){
-		for(i=index;i<list->length-1;i++){
-			list->base[i] = list->base[i+1];
-		}
+	for(i=index;i<list->length-1;i++){
+		list->base[i] = list->base[i+1];
 	}
 	list->length--;
-	return 1;	
+	return 1;
 };
 
 void* get(ArrayList *list, int index) {
 	if (index < 0 || index >= list->length) return NULL;
 	return list->base[index];
-}
+};
+
+int search(ArrayList *list,void* data,CompareFunc cmp){
+	int i,res;
+	if(list == NULL) return -1;
+	for(i=0;i<list->length;i++){
+		res = cmp(get(list,i),data);
+		if(1 == res)
+			return i;
+	}
+	return -1;
+};
+
+int hasCurrent(Iterator *it){
+	return it->current != NULL;
+};
+
+void* giveCurrentElement(Iterator *it){
+	if(it->hasNext(it)){
+		void **current;
+		current = it->current;
+		it->current = it->current + sizeof(void*);
+		return *current;
+	}
+	return NULL;
+};
+
+Iterator getIterator(ArrayList *list){
+	Iterator it;
+	it.current = list->base;
+	it.list = list->base;
+	it.hasNext = hasCurrent;
+	it.next = giveCurrentElement;
+	return it;
+};
 
 void dispose(ArrayList *list) {
 	free(list->base);
