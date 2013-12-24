@@ -88,7 +88,7 @@ void test_removing_element(){
 	int result;
 	insert(internsPtr, 0, &prateek);
 	result = remove(internsPtr,0);
-	ASSERT(result == 1);
+	ASSERT(SUCCESS == result);
 	ASSERT(0 == getLength(internsPtr));
 	ASSERT(NULL == get(internsPtr,0));
 };
@@ -110,7 +110,7 @@ void test_removing_from_between(){
 	insert(internsPtr, 1, &ji);
 	insert(internsPtr, 2, &tanbirka);
 	result = remove(internsPtr,1);
-	ASSERT(1 == result);
+	ASSERT(SUCCESS == result);
 	ASSERT(&prateek == get(internsPtr,0));
 	ASSERT(&tanbirka == get(internsPtr,1));
 	ASSERT(NULL == get(internsPtr,2));
@@ -120,11 +120,30 @@ void test_removing_element_beyond_capacity_should_fail(){
 	int result;
 	insert(internsPtr, 0, &prateek);
 	result = remove(internsPtr,1);
-	ASSERT(0 == result);
+	ASSERT(FAILURE == result);
 };
 
 void test_removing_element_from_negative_index_should_fail(){
 	int result;
 	result = remove(internsPtr,-1);
-	ASSERT(0 == result);
-}
+	ASSERT(FAILURE == result);
+};
+
+void removing_when_list_is_null(){
+	int result;
+	result = remove(NULL,0);
+	ASSERT(FAILURE == result);	
+};
+
+void test_adding_record_at_end(){
+	int result;
+	result = add(internsPtr,&prateek);
+	ASSERT(&prateek == get(internsPtr,0));
+	ASSERT(SUCCESS == result);
+};
+
+void test_adding_when_list_is_null(){
+	int result;
+	result = add(NULL,&prateek);
+	ASSERT(FAILURE == result);
+};

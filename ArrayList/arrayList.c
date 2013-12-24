@@ -43,7 +43,12 @@ int insert(ArrayList *list, int index, void* data) {
 	list->base[index] = data;
 	list->length++;
 	return 1;
-}
+};
+
+int add(ArrayList *list,void *data){
+	if(list == NULL) return 0;
+	return insert(list,list->length,data);
+};
 
 int remove(ArrayList *list,int index){
 	int i;
