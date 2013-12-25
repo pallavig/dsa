@@ -1,0 +1,5 @@
+*.o
+*.exe
+*.core
+createScaffold.sh
+abc.c
