@@ -18,28 +18,36 @@ TreeNode* createTreeNode(void* child){
 	return node;
 };
 
-void* traverse(void* tree,Iterator* it,void *parent){
-	TreeNode *treeNode = ((Tree*)tree)->root;
-	TreeNode *result;
-	TreeNode *finalResult;
-	Iterator it1;
+TreeNode* getTreeNode(List* list,void* parent,compareFunc cmp){
 	TreeNode *tn;
-	if(0==((Tree*)tree)->compare(treeNode->data,parent))
-		return treeNode;
-	while(it->hasNext(it)){
-		tn = (TreeNode*)it->next(it);
-		((Tree*)tree)->root = tn;
-		it1 = getIterator(tn->list);
-		return traverse(tree,&it1,parent);
+	Iterator it = getIterator(list);
+	while(it.hasNext(&it)){
+		tn = it.next(&it);
+		if(0 == cmp(tn->data,parent))
+			return tn;
+		if(tn->list)
+			return getTreeNode(tn->list,parent,cmp);
 	}
 	return NULL;
 };
 
+TreeNode* traverse(void* tree,void *parent){
+	TreeNode *treeNode = ((Tree*)tree)->root;
+	if(0==((Tree*)tree)->compare(treeNode->data,parent))
+		return treeNode;
+	return getTreeNode(treeNode->list,parent,((Tree*)tree)->compare);
+};
+
 void* searchTreeNode(Tree *tree,void* parent){
-	Iterator it = getIterator(((TreeNode*)tree->root)->list);
 	TreeNode* tn;
-	tn = traverse(tree,&it,parent);
+	tn = traverse(tree,parent);
 	return tn;
+};
+
+int search(void* tree,void* parent){
+	void *matchedNode = searchTreeNode(tree,parent);
+	if(matchedNode) return 1;
+	return 0;
 };
 
 int insertTreeNode(Tree *tree,void *parent,void *child){
@@ -72,10 +80,13 @@ int hasCurrentTreeNode(Iterator* it){
 
 void* getCurrentTreeNode(Iterator *it){
 	TreeNode* result = NULL;
-	if(it->hasNext(it))
+	if(it->hasNext(it)){
 		result = ((Node*)(it->current))->data;
-	it->current = ((Node*)(it->current))->next;
-	return result->data;
+		it->current = ((Node*)(it->current))->next;
+	}
+	if(result)
+		return result->data;
+	return result;
 };
 
 Iterator getChildren(Tree *tree,void* parent){
@@ -89,7 +100,6 @@ Iterator getChildren(Tree *tree,void* parent){
 		return it;
 	}
 	matchedNode = searchTreeNode(tree,parent);
-	printf("%p\n",matchedNode);
 	it.list = matchedNode->list;
 	if(it.list == NULL) it.current = NULL;
 	else it.current = ((List*)it.list)->head;

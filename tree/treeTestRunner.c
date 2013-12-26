@@ -69,6 +69,21 @@ int main(){
 		test_inserting_node_at_depth_two();
 	tearDown();
 	testEnded();
+	testStarted("test_searching_root_node");
+	setup();
+		test_searching_root_node();
+	tearDown();
+	testEnded();
+	testStarted("test_searching_nodes_depth_one");
+	setup();
+		test_searching_nodes_depth_one();
+	tearDown();
+	testEnded();
+	testStarted("test_searching_at_depth_two");
+	setup();
+		test_searching_at_depth_two();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
