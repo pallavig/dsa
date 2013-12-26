@@ -174,6 +174,11 @@ int main(){
 		test_getting_elements_of_linked_list_for_three_elements();
 	tearDown();
 	testEnded();
+	testStarted("test_whether_iterator_gives_next_node");
+	setup();
+		test_whether_iterator_gives_next_node();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
