@@ -16,6 +16,7 @@ void test_inserting_first_node_in_linked_list(){
 	it = getChildren(&tree,NULL);
 	element = it.next(&it);
 	ASSERT(*(int*)element == element1);
+	disposeTree(&tree);
 };
 
 void test_inserting_two_nodes_one_root_and_its_child(){
@@ -27,6 +28,7 @@ void test_inserting_two_nodes_one_root_and_its_child(){
 	it = getChildren(&tree,&element1);
 	ASSERT(element2 == *(int*)it.next(&it));
 	ASSERT(NULL == it.next(&it));
+	disposeTree(&tree);
 };
 
 void test_inserting_three_nodes_one_after_the_other(){
@@ -41,6 +43,7 @@ void test_inserting_three_nodes_one_after_the_other(){
 	ASSERT(element4 == *(int*)it.next(&it));
 	ASSERT(element3 == *(int*)it.next(&it));
 	ASSERT(element2 == *(int*)it.next(&it));
+	disposeTree(&tree);
 };
 
 void test_inserting_node_at_depth_two(){
@@ -55,6 +58,7 @@ void test_inserting_node_at_depth_two(){
 	it = getChildren(&tree,&element2);
 	ASSERT(element4 == *(int*)it.next(&it));
 	ASSERT(element3 == *(int*)it.next(&it));
+	disposeTree(&tree);
 };
 
 void test_searching_root_node(){
@@ -62,6 +66,7 @@ void test_searching_root_node(){
 	int element1 =10;
 	ASSERT(1 == insertTreeNode(&tree,NULL,&element1));
 	ASSERT(1 == search(&tree,&element1));
+	disposeTree(&tree);
 };
 
 void test_searching_nodes_depth_one(){
@@ -72,6 +77,7 @@ void test_searching_nodes_depth_one(){
 	insertTreeNode(&tree,&element1,&element3);
 	ASSERT(1 == search(&tree,&element2));
 	ASSERT(1 == search(&tree,&element3));
+	disposeTree(&tree);
 };
 
 void test_searching_at_depth_two(){
@@ -83,6 +89,7 @@ void test_searching_at_depth_two(){
 	insertTreeNode(&tree,&element2,&element4);
 	ASSERT(1 == search(&tree,&element3));
 	ASSERT(1 == search(&tree,&element4));
+	disposeTree(&tree);
 };
 
 void test_removing_leaf_node(){
@@ -94,6 +101,7 @@ void test_removing_leaf_node(){
 	ASSERT(1 == removeTreeNode(&tree,&element2));
 	it = getChildren(&tree,&element1);
 	ASSERT(NULL == it.next(&it));
+	disposeTree(&tree);
 };
 
 void test_removing_node_that_is_absent(){
@@ -103,6 +111,7 @@ void test_removing_node_that_is_absent(){
 	insertTreeNode(&tree,NULL,&element1);
 	insertTreeNode(&tree,&element1,&element2);
 	ASSERT(0 == removeTreeNode(&tree,&element3));
+	disposeTree(&tree);
 };
 
 void test_removing_node_from_depth_two(){
@@ -117,6 +126,7 @@ void test_removing_node_from_depth_two(){
 	it = getChildren(&tree,&element2);
 	ASSERT(element4 == *(int*)it.next(&it));
 	ASSERT(NULL == it.next(&it));
+	disposeTree(&tree);
 };
 
 void test_removing_node_that_has_childs_should_fail(){
@@ -125,6 +135,7 @@ void test_removing_node_that_has_childs_should_fail(){
 	insertTreeNode(&tree,NULL,&element1);
 	insertTreeNode(&tree,&element1,&element2);
 	ASSERT(0 == removeTreeNode(&tree,&element1));
+	disposeTree(&tree);
 };
 
 void test_removing_root_node_when_it_has_no_childs(){

@@ -132,10 +132,30 @@ int removeTreeNode(Tree *tree,void* data){
 	if(matchedNode->list) return 0;
 	if(matchedNode == tree->root){
 		tree->root = NULL;
+		free(matchedNode);
 		return 1;
 	}
 	list = matchedNode->parent->list;
 	index = getIndex(list,data,tree->compare);
 	remove(list,index);
+	if(length(list) == 0)
+		matchedNode->parent->list = NULL;
+	free(matchedNode);
 	return 1;
+};
+
+void freeAllNodes(Tree *tree,List *childs){
+	TreeNode *tn;
+	Iterator it = getIterator(childs);
+	while(it.hasNext(&it)){
+		tn = it.next(&it);
+		if(tn->list)
+			return freeAllNodes(tree,tn->list);
+		removeTreeNode(tree,tn->data);
+	}
+};
+
+void disposeTree(Tree *tree){
+	TreeNode* root = tree->root;
+	freeAllNodes(tree,root->list);
 };
