@@ -84,3 +84,23 @@ void test_searching_at_depth_two(){
 	ASSERT(1 == search(&tree,&element3));
 	ASSERT(1 == search(&tree,&element4));
 };
+
+void test_removing_leaf_node(){
+	Tree tree = createTree(cmpInt);
+	int element1 = 10,element2 = 20;
+	Iterator it;
+	insertTreeNode(&tree,NULL,&element1);
+	insertTreeNode(&tree,&element1,&element2);
+	ASSERT(1 == removeTreeNode(&tree,&element2));
+	it = getChildren(&tree,&element1);
+	ASSERT(NULL == it.next(&it));
+};
+
+void test_removing_node_that_is_not_present(){
+	Tree tree = createTree(cmpInt);
+	int element1 = 10,element2 = 20,element3 = 30,element4 = 40;
+	Iterator it;
+	insertTreeNode(&tree,NULL,&element1);
+	insertTreeNode(&tree,&element1,&element2);
+	ASSERT(0 == removeTreeNode(&tree,&element3));
+};

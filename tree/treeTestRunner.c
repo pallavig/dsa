@@ -84,6 +84,16 @@ int main(){
 		test_searching_at_depth_two();
 	tearDown();
 	testEnded();
+	testStarted("test_removing_leaf_node");
+	setup();
+		test_removing_leaf_node();
+	tearDown();
+	testEnded();
+	testStarted("test_removing_node_that_is_not_present");
+	setup();
+		test_removing_node_that_is_not_present();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();

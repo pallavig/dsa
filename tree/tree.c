@@ -107,3 +107,27 @@ Iterator getChildren(Tree *tree,void* parent){
 	it.hasNext = hasCurrentTreeNode;
 	return it;
 };
+
+int getIndex(List* list,void* data,compareFunc cmp){
+	int i = 0;
+	TreeNode *tn;
+	Iterator it = getIterator(list);
+	while(it.hasNext(&it)){
+		i = i + 1;
+		tn = (TreeNode*)it.next(&it);
+		if(0 == cmp(tn->data,data))
+			return i;
+	}
+	return i;
+};
+
+int removeTreeNode(Tree *tree,void* data){
+	TreeNode *matchedNode = searchTreeNode(tree,data);
+	List* list;
+	int index;
+	if(!matchedNode) return 0;
+	list = matchedNode->parent->list;
+	index = getIndex(list,data,tree->compare);
+	remove(list,index);
+	return 1;
+};
