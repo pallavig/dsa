@@ -238,3 +238,23 @@ void test_getting_elements_of_linked_list_for_three_elements(){
 	result = getElement(list,3);
 	ASSERT(element3 == *(int*)result);
 };
+
+void test_whether_iterator_gives_next_node(){
+	int element1 = 20,element2 = 40,element3 = 60;
+	Iterator it;
+	void *e1;
+	res = insert(list,&element1,1);
+	res = insert(list,&element2,2);
+	res = insert(list,&element3,3);
+	it = getIterator(list);
+	res = it.hasNext(&it);
+	e1 = it.next(&it);
+	ASSERT(1 == res);
+	ASSERT(20 == *(int*)e1);
+	e1 = it.next(&it);
+	ASSERT(40 == *(int*)e1);
+	e1 = it.next(&it);
+	ASSERT(60 == *(int*)e1);
+	e1 = it.next(&it);
+	ASSERT(NULL == e1);
+};

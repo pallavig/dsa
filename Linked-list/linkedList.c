@@ -125,3 +125,26 @@ void dispose(List* list){
 int length(List* list){
 	return list->length;
 };
+
+int hasCurrent(Iterator* it){
+	return ((Node*)(it->current)) != NULL;
+};
+
+void* current(Iterator* it){
+	void* result = NULL;
+	if(it->hasNext(it)){
+		result = ((Node*)(it->current))->data;
+		it->current = ((Node*)(it->current))->next;
+	}
+	return result;
+};
+
+Iterator getIterator(List* list){
+	Iterator it;
+	if(list==NULL) it.current = NULL;
+	else it.current = list->head;
+	it.list = list;
+	it.hasNext = hasCurrent;
+	it.next = current;
+	return it;
+};
