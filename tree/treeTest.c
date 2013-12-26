@@ -96,11 +96,41 @@ void test_removing_leaf_node(){
 	ASSERT(NULL == it.next(&it));
 };
 
-void test_removing_node_that_is_not_present(){
+void test_removing_node_that_is_absent(){
 	Tree tree = createTree(cmpInt);
-	int element1 = 10,element2 = 20,element3 = 30,element4 = 40;
+	int element1 = 10,element2 = 20,element3 = 30;
 	Iterator it;
 	insertTreeNode(&tree,NULL,&element1);
 	insertTreeNode(&tree,&element1,&element2);
 	ASSERT(0 == removeTreeNode(&tree,&element3));
+};
+
+void test_removing_node_from_depth_two(){
+	Iterator it;
+	Tree tree = createTree(cmpInt);
+	int element1 = 10,element2 = 20,element3 = 30,element4 = 40;
+	insertTreeNode(&tree,NULL,&element1);
+	insertTreeNode(&tree,&element1,&element2);
+	insertTreeNode(&tree,&element2,&element3);
+	insertTreeNode(&tree,&element2,&element4);
+	ASSERT(1 == removeTreeNode(&tree,&element3));
+	it = getChildren(&tree,&element2);
+	ASSERT(element4 == *(int*)it.next(&it));
+	ASSERT(NULL == it.next(&it));
+};
+
+void test_removing_node_that_has_childs_should_fail(){
+	Tree tree = createTree(cmpInt);
+	int element1 = 10,element2 = 20,element3 = 30,element4 = 40;
+	insertTreeNode(&tree,NULL,&element1);
+	insertTreeNode(&tree,&element1,&element2);
+	ASSERT(0 == removeTreeNode(&tree,&element1));
+};
+
+void test_removing_root_node_when_it_has_no_childs(){
+	Tree tree = createTree(cmpInt);
+	int element1 = 10;
+	insertTreeNode(&tree,NULL,&element1);
+	ASSERT(1 == removeTreeNode(&tree,&element1));
+	ASSERT(0 == search(&tree,&element1));
 };

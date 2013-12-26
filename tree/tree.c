@@ -32,7 +32,10 @@ TreeNode* getTreeNode(List* list,void* parent,compareFunc cmp){
 };
 
 TreeNode* traverse(void* tree,void *parent){
-	TreeNode *treeNode = ((Tree*)tree)->root;
+	TreeNode *treeNode;
+	if(!((Tree*)tree)->root)
+		return NULL;
+	treeNode = ((Tree*)tree)->root;
 	if(0==((Tree*)tree)->compare(treeNode->data,parent))
 		return treeNode;
 	return getTreeNode(treeNode->list,parent,((Tree*)tree)->compare);
@@ -122,10 +125,15 @@ int getIndex(List* list,void* data,compareFunc cmp){
 };
 
 int removeTreeNode(Tree *tree,void* data){
-	TreeNode *matchedNode = searchTreeNode(tree,data);
 	List* list;
 	int index;
+	TreeNode *matchedNode = searchTreeNode(tree,data);
 	if(!matchedNode) return 0;
+	if(matchedNode->list) return 0;
+	if(matchedNode == tree->root){
+		tree->root = NULL;
+		return 1;
+	}
 	list = matchedNode->parent->list;
 	index = getIndex(list,data,tree->compare);
 	remove(list,index);

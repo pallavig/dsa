@@ -89,9 +89,24 @@ int main(){
 		test_removing_leaf_node();
 	tearDown();
 	testEnded();
-	testStarted("test_removing_node_that_is_not_present");
+	testStarted("test_removing_node_that_is_absent");
 	setup();
-		test_removing_node_that_is_not_present();
+		test_removing_node_that_is_absent();
+	tearDown();
+	testEnded();
+	testStarted("test_removing_node_from_depth_two");
+	setup();
+		test_removing_node_from_depth_two();
+	tearDown();
+	testEnded();
+	testStarted("test_removing_node_that_has_childs_should_fail");
+	setup();
+		test_removing_node_that_has_childs_should_fail();
+	tearDown();
+	testEnded();
+	testStarted("test_removing_root_node_when_it_has_no_childs");
+	setup();
+		test_removing_root_node_when_it_has_no_childs();
 	tearDown();
 	testEnded();
 
