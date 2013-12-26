@@ -64,6 +64,11 @@ int main(){
 		test_inserting_three_nodes_one_after_the_other();
 	tearDown();
 	testEnded();
+	testStarted("test_inserting_node_at_depth_two");
+	setup();
+		test_inserting_node_at_depth_two();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();

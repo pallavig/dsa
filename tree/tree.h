@@ -7,4 +7,5 @@ typedef struct {
 Tree createTree(compareFunc compare);
 int insertTreeNode(Tree* tree,void* parent,void* data);
 Iterator getChildren(Tree *tree,void* parent);	
-void traverse(void* treenode,Iterator* it);
+void* traverse(void* treenode,Iterator* it,void* parent);
+void* searchTreeNode(Tree *tree,void* parent);

@@ -18,29 +18,28 @@ TreeNode* createTreeNode(void* child){
 	return node;
 };
 
-void traverse(void* tree,Iterator* it){
+void* traverse(void* tree,Iterator* it,void *parent){
 	TreeNode *treeNode = ((Tree*)tree)->root;
+	TreeNode *result;
+	TreeNode *finalResult;
 	Iterator it1;
 	TreeNode *tn;
-	printf("%d\n",*(int*)treeNode->data);
-	if(treeNode->list == NULL){
-		printf("Entered\n");
-		return;
-	}
+	if(0==((Tree*)tree)->compare(treeNode->data,parent))
+		return treeNode;
 	while(it->hasNext(it)){
 		tn = (TreeNode*)it->next(it);
 		((Tree*)tree)->root = tn;
-		it1 = getChildren(tree,tn->data);
-		traverse(tree,&it1);
-	}
-};
-
-TreeNode* searchTreeNode(Tree *tree,void* parent){
-	TreeNode *root = (TreeNode*)tree->root;
-	if(tree->compare(root->data,parent) == 0){
-		return root;
+		it1 = getIterator(tn->list);
+		return traverse(tree,&it1,parent);
 	}
 	return NULL;
+};
+
+void* searchTreeNode(Tree *tree,void* parent){
+	Iterator it = getIterator(((TreeNode*)tree->root)->list);
+	TreeNode* tn;
+	tn = traverse(tree,&it,parent);
+	return tn;
 };
 
 int insertTreeNode(Tree *tree,void *parent,void *child){
@@ -52,6 +51,7 @@ int insertTreeNode(Tree *tree,void *parent,void *child){
 		return 1;
 	}
 	matchedTreeNode =  searchTreeNode(tree,parent);
+	node->parent = matchedTreeNode;
 	if(matchedTreeNode->list == NULL){
 		list = create();//creation of list who will dispose it
 		matchedTreeNode->list = list;
@@ -75,8 +75,7 @@ void* getCurrentTreeNode(Iterator *it){
 	if(it->hasNext(it))
 		result = ((Node*)(it->current))->data;
 	it->current = ((Node*)(it->current))->next;
-	// printf("%d\n",*(int*)result->data);
-	return result;
+	return result->data;
 };
 
 Iterator getChildren(Tree *tree,void* parent){
@@ -90,6 +89,7 @@ Iterator getChildren(Tree *tree,void* parent){
 		return it;
 	}
 	matchedNode = searchTreeNode(tree,parent);
+	printf("%p\n",matchedNode);
 	it.list = matchedNode->list;
 	if(it.list == NULL) it.current = NULL;
 	else it.current = ((List*)it.list)->head;
