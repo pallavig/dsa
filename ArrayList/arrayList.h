@@ -18,5 +18,5 @@ int search(ArrayList *list,void* data,CompareFunc cmp);
 int getLength(ArrayList *list);
 void* get(ArrayList *list, int index);
 
-Iterator getIterator(ArrayList *list);
+Iterator getArrayListIterator(ArrayList *list);
 void iterate(ArrayList list, ForEach* forEach);

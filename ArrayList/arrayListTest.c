@@ -192,7 +192,7 @@ void test_getting_iterator_of_list(){
 	Iterator it;
 	insertInArrayList(internsPtr, 0, &prateek);
 	insertInArrayList(internsPtr, 1, &ji);
-	it = getIterator(internsPtr);
+	it = getArrayListIterator(internsPtr);
 	ASSERT(1 == it.hasNext(&it));
 };
 
@@ -200,7 +200,7 @@ void test_getting_next_element_through_iterator(){
 	Iterator it;
 	insertInArrayList(internsPtr, 0, &prateek);
 	insertInArrayList(internsPtr, 1, &ji);
-	it = getIterator(internsPtr);
+	it = getArrayListIterator(internsPtr);
 	ASSERT(&prateek == it.next(&it));
 	ASSERT(&ji == it.next(&it));
 };

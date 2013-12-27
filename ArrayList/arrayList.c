@@ -3,7 +3,7 @@
 
 ArrayList createArrayList(int capacity) {
 	ArrayList list;
-	list.base = (void*)malloc(sizeof(void*) * capacity);
+	list.base = (void*)malloc(sizeof(void*)*capacity);
 	list.capacity = capacity;
 	list.length = 0;
 	return list;
@@ -88,7 +88,7 @@ void* giveCurrentElement(Iterator *it){
 	return NULL;
 };
 
-Iterator getIterator(ArrayList *list){
+Iterator getArrayListIterator(ArrayList *list){
 	Iterator it;
 	it.current = list->base;
 	it.list = list->base;
@@ -98,10 +98,10 @@ Iterator getIterator(ArrayList *list){
 };
 
 void iterate(ArrayList list, ForEach* forEach){
-        int result,index;
-        for(index = 0;index < list.length ;index++){
-                forEach(list.base[index]);
-        }
+    int result,index;
+    for(index = 0;index < list.length ;index++){
+            forEach(list.base[index]);
+    }
 }
 
 void disposeArrayList(ArrayList *list) {
