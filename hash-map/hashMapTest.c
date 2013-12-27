@@ -15,7 +15,7 @@ Book youCanWin = {10,"You Can Win"};
 Book swamiAndFriends = {11,"Swami and friends"};
 
 int getHashCode(void *key){
-	return ((Book*)key)->isbn;
+	return *(int*)key;
 };
 
 int cmpInt(void *first,void *second){
