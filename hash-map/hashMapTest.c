@@ -1,5 +1,6 @@
 #include "testUtils.h"
 #include "hashMap.h"
+#include <string.h>
 
 //create setup, tearDown, fixtureSetup, fixtureTearDown methods if needed
 
@@ -13,7 +14,7 @@ int getHashCode(void *key){
 };
 
 int cmpInt(void *first,void *second){
-	return *(int*)first - *(int*)second;
+	return 0 == *(int*)first - *(int*)second;
 };
 
 void test_putting_first_element_in_list(){
@@ -21,4 +22,5 @@ void test_putting_first_element_in_list(){
 	Book youCanWin = {10,"You Can Win"};
 	int isbn = 10;
 	ASSERT(1 == put(&map,&isbn,&youCanWin));
+	ASSERT(strcmp(youCanWin.name,getHashObject(&map,&isbn)));
 };
