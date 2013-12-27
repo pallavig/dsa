@@ -1,7 +1,7 @@
 #include "arrayList.h"
 #include <stdlib.h>
 
-ArrayList create(int capacity) {
+ArrayList createArrayList(int capacity) {
 	ArrayList list;
 	list.base = (void*)malloc(sizeof(void*) * capacity);
 	list.capacity = capacity;
@@ -33,7 +33,7 @@ int getLength(ArrayList *list){
 	return list->length;
 };
 
-int insert(ArrayList *list, int index, void* data) {
+int insertInArrayList(ArrayList *list, int index, void* data) {
 	if (list == NULL) return 0;
 	if (index < 0 || index > list->length) return 0;
 	increaseCapacity(list);
@@ -43,12 +43,12 @@ int insert(ArrayList *list, int index, void* data) {
 	return 1;
 };
 
-int add(ArrayList *list,void *data){
+int addInArrayList(ArrayList *list,void *data){
 	if(list == NULL) return 0;
-	return insert(list,list->length,data);
+	return insertInArrayList(list,list->length,data);
 };
 
-int remove(ArrayList *list,int index){
+int removeFromArrayList(ArrayList *list,int index){
 	int i;
 	if(index > list->length-1 || index < 0) return 0;
 	for(i=index;i<list->length-1;i++){
@@ -74,7 +74,7 @@ int search(ArrayList *list,void* data,CompareFunc cmp){
 	return -1;
 };
 
-int hasCurrent(Iterator *it){
+int hasCurrentInArrayList(Iterator *it){
 	return it->current != NULL;
 };
 
@@ -92,11 +92,18 @@ Iterator getIterator(ArrayList *list){
 	Iterator it;
 	it.current = list->base;
 	it.list = list->base;
-	it.hasNext = hasCurrent;
+	it.hasNext = hasCurrentInArrayList;
 	it.next = giveCurrentElement;
 	return it;
 };
 
-void dispose(ArrayList *list) {
-	free(list->base);
+void iterate(ArrayList list, ForEach* forEach){
+        int result,index;
+        for(index = 0;index < list.length ;index++){
+                forEach(list.base[index]);
+        }
 }
+
+void disposeArrayList(ArrayList *list) {
+	free(list->base);
+};
