@@ -23,11 +23,11 @@ int calculateHash(HashMap *map,void *key){
 HashMap createHashMap(HashCodeGenerator getHashCode,compareFunc cmp,int capacity){
 	HashMap map;
 	int i;
-	ArrayList list = createArrayList(capacity);
+	ArrayList listOfBuckets = createArrayList(capacity);
 	map.getHashCode = getHashCode;
 	map.compare = cmp;
 	map.buckets = calloc(1,sizeof(ArrayList));
-	*(ArrayList*)map.buckets = list;
+	*(ArrayList*)map.buckets = listOfBuckets;
 	for(i=0;i<capacity;i++)
 		((ArrayList*)map.buckets)->base[i] = create();
 	map.capacity = capacity;
@@ -35,12 +35,12 @@ HashMap createHashMap(HashCodeGenerator getHashCode,compareFunc cmp,int capacity
 };
 
 int put(HashMap *map,void *key,void *value){
-	List *list;
+	List *listOfHashObjects;
 	int i;
 	Object *object = createObject(key,value);
 	int hash = calculateHash(map,key);
-	list = ((ArrayList*)map->buckets)->base[hash];
-	insert(list,object,1);
+	listOfHashObjects = ((ArrayList*)map->buckets)->base[hash];
+	insert(listOfHashObjects,object,1);
 	return 1;
 };
 
@@ -57,4 +57,23 @@ void* getHashObject(HashMap *map,void *key){
 			return object->values;
 	}
 	return NULL;
+};
+
+int removeHashObject(HashMap *map,void *key){
+	List *list;
+	Object *object;
+	Iterator it;
+	int index = 1;
+	int hash = calculateHash(map,key);
+	list = ((ArrayList*)map->buckets)->base[hash];
+	it = getIterator(list);
+	while(it.hasNext(&it)){
+		object = it.next(&it);
+		if(map->compare(object->key,key)){
+			remove(list,index);
+			return 1;
+		}
+		index++;
+	}
+	return 0;
 };
