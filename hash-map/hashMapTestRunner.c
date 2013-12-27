@@ -54,6 +54,16 @@ int main(){
 		test_putting_first_element_in_list();
 	tearDown();
 	testEnded();
+	testStarted("test_putting_two_elements_in_the_list");
+	setup();
+		test_putting_two_elements_in_the_list();
+	tearDown();
+	testEnded();
+	testStarted("test_searching_element_that_is_absent");
+	setup();
+		test_searching_element_that_is_absent();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();

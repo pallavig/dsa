@@ -53,9 +53,8 @@ void* getHashObject(HashMap *map,void *key){
 	it = getIterator(list);
 	while(it.hasNext(&it)){
 		object = it.next(&it);
-		if(map->compare(object->key,key)){
+		if(map->compare(object->key,key))
 			return object->values;
-		}
 	}
 	return NULL;
 };
