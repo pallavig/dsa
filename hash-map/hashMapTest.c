@@ -11,8 +11,11 @@ typedef struct {
 
 int isbn10 = 10;
 int isbn11 = 11;
+int isbn20 = 20;
 Book youCanWin = {10,"You Can Win"};
 Book swamiAndFriends = {11,"Swami and friends"};
+Book yayati = {20,"Yayati"};
+Book theSecretSeven = {10,"The Secret Seven"};
 
 int getHashCode(void *key){
 	return *(int*)key;
@@ -36,6 +39,24 @@ void test_putting_two_elements_in_the_list(){
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
 };
 
+void test_putting_three_elements(){
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	put(&map,&isbn10,&youCanWin.name);
+	put(&map,&isbn11,&swamiAndFriends.name);
+	put(&map,&isbn20,&yayati.name);
+	ASSERT(0 == strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
+	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
+	ASSERT(0 == strcmp(yayati.name,getHashObject(&map,&isbn20)));
+};
+
+void test_putting_same_key_twice_should_update_the_value(){
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	put(&map,&isbn10,&youCanWin.name);
+	put(&map,&isbn10,&theSecretSeven.name);
+	ASSERT(0 == strcmp(theSecretSeven.name,getHashObject(&map,&isbn10)));
+	ASSERT(0 != strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
+};
+
 void test_getting_element_that_is_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(NULL == getHashObject(&map,&isbn10));
@@ -48,7 +69,7 @@ void test_deleting_element_having_specific_key(){
 	ASSERT(NULL == getHashObject(&map,&isbn10));
 };
 
-void test_deleting_element_when_it_is_absent(){
+void test_deleting_element_when_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(0 == removeHashObject(&map,&isbn11));
 };

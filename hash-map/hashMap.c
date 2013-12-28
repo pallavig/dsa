@@ -36,9 +36,12 @@ HashMap createHashMap(HashCodeGenerator getHashCode,compareFunc cmp,int capacity
 
 int put(HashMap *map,void *key,void *value){
 	List *listOfHashObjects;
-	int i;
-	Object *object = createObject(key,value);
-	int hash = calculateHash(map,key);
+	Object *objectPrevoiuslyPresent,*object;
+	int hash;
+	objectPrevoiuslyPresent = getHashObject(map,key);
+	if(objectPrevoiuslyPresent) objectPrevoiuslyPresent->values = value;
+	object = createObject(key,value);
+	hash = calculateHash(map,key);
 	listOfHashObjects = ((ArrayList*)map->buckets)->base[hash];
 	insert(listOfHashObjects,object,1);
 	return 1;

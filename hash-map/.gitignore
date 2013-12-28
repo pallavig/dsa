@@ -2,3 +2,4 @@
 *.exe
 *.core
 createScaffold.sh
+hashMapTestRunner.c
