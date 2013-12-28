@@ -1,3 +1,4 @@
+#include "D:/workspace/dsa/iterator/iterator.h"
 typedef int (*HashCodeGenerator)(void *key);
 typedef int (*compareFunc)(void *first,void *second);
 typedef struct {

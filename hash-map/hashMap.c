@@ -8,6 +8,11 @@ typedef struct {
 	void *values;
 } Object;
 
+typedef struct {
+	int bucketNumber;
+	void *current;
+} IteratorPosition;
+
 Object* createObject(void *key,void *values){
 	Object *object = calloc(1,sizeof(Object));
 	object->key = key;
@@ -20,17 +25,19 @@ int calculateHash(HashMap *map,void *key){
 	return hashcode % map->capacity;
 };
 
+		// ((ArrayList*)map.buckets)->base[i] = create();
 HashMap createHashMap(HashCodeGenerator getHashCode,compareFunc cmp,int capacity){
 	HashMap map;
 	int i;
+	List *listOfHashObjects;
 	ArrayList listOfBuckets = createArrayList(capacity);
 	map.getHashCode = getHashCode;
 	map.compare = cmp;
+	map.capacity = capacity;
 	map.buckets = calloc(1,sizeof(ArrayList));
 	*(ArrayList*)map.buckets = listOfBuckets;
 	for(i=0;i<capacity;i++)
-		((ArrayList*)map.buckets)->base[i] = create();
-	map.capacity = capacity;
+		addInArrayList(map.buckets, create());
 	return map;
 };
 
@@ -52,7 +59,7 @@ void* getHashObject(HashMap *map,void *key){
 	Object *object;
 	Iterator it;
 	int hash = calculateHash(map,key);
-	list = ((ArrayList*)map->buckets)->base[hash];
+	list = get(map->buckets,hash);
 	it = getIterator(list);
 	while(it.hasNext(&it)){
 		object = it.next(&it);
@@ -80,3 +87,22 @@ int removeHashObject(HashMap *map,void *key){
 	}
 	return 0;
 };
+
+// int hashMapHasCurrent(Iterator *it){
+// 	return 1;
+// }
+
+// void* hashMapCurrent(Iterator *it){
+// 	return NULL;
+// };
+
+// Iterator keys(HashMap *map){
+// 	IteratorPosition ip;
+// 	ip.bucketNumber = 0;
+// 	ArrayList *list = map->buckets;
+// 	Iterator it;
+// 	it.hasNext = hashMapHasCurrent;
+// 	it.next = hashMapCurrent;
+// 	it.list = map;
+// 	return it;
+// };

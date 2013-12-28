@@ -82,3 +82,12 @@ void test_deleting_one_element_when_two_are_present(){
 	ASSERT(NULL == getHashObject(&map,&isbn10));
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
 };
+
+// // void test_iterating_over_hash_map(){
+// // 	HashMap map = createHashMap(getHashCode,cmpInt,10);
+// // 	Iterator it;
+// // 	put(&map,&isbn10,&youCanWin.name);
+// // 	put(&map,&isbn11,&swamiAndFriends.name);
+// // 	it = keys(&map);
+// // 	ASSERT(isbn10 == *(int*)it.next(&it));
+// // };
