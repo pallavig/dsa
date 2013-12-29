@@ -13,3 +13,4 @@ int put(HashMap *map,void *key,void *data);
 void *getHashObject(HashMap *map,void *key);
 int removeHashObject(HashMap *map,void *key);
 Iterator keys(HashMap *map);
+void disposeHashMap(HashMap *map);

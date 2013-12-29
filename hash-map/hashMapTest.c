@@ -28,6 +28,7 @@ void test_putting_first_element_in_list(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(1 == put(&map,&isbn10,&youCanWin.name));
 	ASSERT(0 == strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
+	disposeHashMap(&map);
 };
 
 void test_putting_two_elements_in_the_list(){
@@ -38,6 +39,7 @@ void test_putting_two_elements_in_the_list(){
 	put(&map,&isbn11,&swamiAndFriends.name);
 	ASSERT(0 == strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
+	disposeHashMap(&map);
 };
 
 void test_putting_three_elements(){
@@ -51,17 +53,21 @@ void test_putting_three_elements(){
 	ASSERT(0 == strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
 	ASSERT(0 == strcmp(yayati.name,getHashObject(&map,&isbn20)));
+	disposeHashMap(&map);
 };
 
 void test_putting_same_key_twice_should_update_the_value(){
+	Iterator it;
 	Book youCanWin = {10,"YouCanWin"};
 	Book swamiAndFriends = {11,"Swami and friends"};
 	Book theSecretSeven = {10,"The Secret Seven"};
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	put(&map,&isbn10,&youCanWin.name);
 	put(&map,&isbn10,&theSecretSeven.name);
+	it = keys(&map);
 	ASSERT(0 == strcmp(theSecretSeven.name,getHashObject(&map,&isbn10)));
 	ASSERT(0 != strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
+	disposeHashMap(&map);
 };
 
 void test_putting_key_value_pair_when_hash_map_is_null_should_fail(){
@@ -73,21 +79,23 @@ void test_putting_when_key_is_null_should_fail(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	Book youCanWin = {10,"YouCanWin"};
 	ASSERT(0 == put(&map,NULL,&youCanWin.name));	
+	disposeHashMap(&map);
 };
 
 void test_getting_element_that_is_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(NULL == getHashObject(&map,&isbn10));
+	disposeHashMap(&map);
 };
 
 void test_getting_when_map_is_null_should_fail(){
 	ASSERT(NULL == getHashObject(NULL,&isbn10));
-
 };
 
 void test_getting_when_key_is_null_should_fail(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(NULL == getHashObject(&map,NULL));
+	disposeHashMap(&map);
 };
 
 void test_deleting_element_having_specific_key(){
@@ -96,17 +104,19 @@ void test_deleting_element_having_specific_key(){
 	put(&map,&isbn10,&youCanWin.name);
 	ASSERT(1 == removeHashObject(&map,&isbn10));
 	ASSERT(NULL == getHashObject(&map,&isbn10));
+	disposeHashMap(&map);
 };
 
 void test_deleting_element_when_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(0 == removeHashObject(&map,&isbn11));
+	disposeHashMap(&map);
 };
 
 void test_deleting_when_key_is_null_should_fail(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(0 == removeHashObject(&map,NULL));
-
+	disposeHashMap(&map);
 };
 
 void test_deleting_when_map_is_null_should_fail(){
@@ -122,6 +132,7 @@ void test_deleting_one_element_when_two_are_present(){
 	ASSERT(1 == removeHashObject(&map,&isbn10));
 	ASSERT(NULL == getHashObject(&map,&isbn10));
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,&isbn11)));
+	disposeHashMap(&map);
 };
 
 void test_iterating_over_hash_map(){
@@ -144,6 +155,7 @@ void test_iterating_over_hash_map(){
 	ASSERT(10 == *(int*)it.next(&it));
 	ASSERT(20 == *(int*)it.next(&it));
 	ASSERT(NULL == it.next(&it));
+	disposeHashMap(&map);
 };
 
 void test_iterating_when_no_elements_are_present_in_first_bucket(){
@@ -157,6 +169,7 @@ void test_iterating_when_no_elements_are_present_in_first_bucket(){
 	ASSERT(11 == *(int*)key);
 	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,key)));
 	ASSERT(NULL == it.next(&it));
+	disposeHashMap(&map);
 };
 
 void test_iterating_when_no_more_elements_are_present(){
@@ -165,4 +178,5 @@ void test_iterating_when_no_more_elements_are_present(){
 	it = keys(&map);
 	ASSERT(0 == it.hasNext(&it));
 	ASSERT(NULL == it.next(&it));
+	disposeHashMap(&map);
 };
