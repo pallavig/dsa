@@ -12,6 +12,8 @@ typedef struct {
 int isbn10 = 10;
 int isbn11 = 11;
 int isbn20 = 20;
+int isbn15 = 15;
+int isbn14 = 14;
 
 int getHashCode(void *key){
 	return *(int*)key;
@@ -93,24 +95,37 @@ void test_deleting_one_element_when_two_are_present(){
 
 void test_iterating_over_hash_map(){
 	Book youCanWin = {10,"YouCanWin"};
+	Book yayati = {20,"Yayati"};
 	Book swamiAndFriends = {11,"Swami and friends"};
+	Book theSecretSeven = {15,"The Secret Seven"};
+	Book theFamousFive = {14,"The secret seven"};
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	Iterator it;
 	put(&map,&isbn10,&youCanWin.name);
 	put(&map,&isbn11,&swamiAndFriends.name);
+	put(&map,&isbn20,&yayati.name);
+	put(&map,&isbn15,&theSecretSeven.name);
+	put(&map,&isbn14,&theFamousFive.name);
 	it = keys(&map);
-	ASSERT(1 == it.hasNext(&it));
-	ASSERT(0 == strcmp(youCanWin.name,it.next(&it)));
+	ASSERT(15 == *(int*)it.next(&it));
+	ASSERT(14 == *(int*)it.next(&it));
+	ASSERT(11 == *(int*)it.next(&it));
+	ASSERT(10 == *(int*)it.next(&it));
+	ASSERT(20 == *(int*)it.next(&it));
+	ASSERT(NULL == it.next(&it));
 };
 
 void test_iterating_when_no_elements_are_present_in_first_bucket(){
 	Book swamiAndFriends = {11,"Swami and friends"};
 	Iterator it;
+	void *key;
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	put(&map,&isbn11,&swamiAndFriends.name);
 	it = keys(&map);
-	ASSERT(1 == it.hasNext(&it));
-	ASSERT(0 == strcmp(swamiAndFriends.name,it.next(&it)));
+	key = it.next(&it);
+	ASSERT(11 == *(int*)key);
+	ASSERT(0 == strcmp(swamiAndFriends.name,getHashObject(&map,key)));
+	ASSERT(NULL == it.next(&it));
 };
 
 void test_iterating_when_no_more_elements_are_present(){

@@ -88,48 +88,29 @@ int removeHashObject(HashMap *map,void *key){
 	return 0;
 };
 
-void* hashMapCurrent(Iterator *it){
-	IteratorPosition *ip = it->current;
-	Iterator listIterator = ip->listIterator;
-	void *result = NULL;
-	if(listIterator.hasNext(&listIterator)){
-		result = listIterator.next(&listIterator);
-		return ((Object*)result)->values;
-	}
+void *getNextKey(Iterator *hashit){
+	Object *hashObject;
+	Iterator dllIterator = getIterator(hashit->list);
+	dllIterator.current = hashit->current;
+	hashObject = dllIterator.next(&dllIterator);
+	hashit->current = dllIterator.current;
+	if(hashObject) return hashObject->key;
 	return NULL;
 };
 
-int hashMapHasCurrent(Iterator *it){
-	IteratorPosition *ip = it->current;
-	Iterator listIerator;
-	List *listOfHashElements;
-
-	while(ip->bucketNumber < ip->map.capacity){
-		if(ip->listIterator.hasNext(&ip->listIterator))
-			return 1;
-		ip->bucketNumber++;
-		listOfHashElements = get(ip->map.buckets,ip->bucketNumber);
-		it->list = listOfHashElements;
-		listIerator = getIterator(listOfHashElements);
-		ip->listIterator = listIerator;
-		hashMapCurrent(it);
-	}
-	return 0;
-};
-
 Iterator keys(HashMap *map){
+	int i = 0;
 	Iterator it;
-	List *listOfHashElements;
-	Iterator listIerator;
-	IteratorPosition *ip = calloc(1,sizeof(IteratorPosition));
-	listOfHashElements = (List*)get(map->buckets,0);
-	listIerator = getIterator(listOfHashElements);
-	ip->bucketNumber = 0;
-	ip->listIterator = listIerator;
-	ip->map = *(map);
-	it.current = ip;
-	it.list = listOfHashElements;
-	it.hasNext = hashMapHasCurrent;
-	it.next = hashMapCurrent;
+	Iterator listIterator;
+	List *listOfHashObjects = create(),*list;
+	while(i<map->capacity){
+		list = (List*)get(map->buckets,i);
+		listIterator = getIterator(list);
+		while(listIterator.hasNext(&listIterator))
+			insert(listOfHashObjects,listIterator.next(&listIterator),1);
+		i++;
+	}
+	it = getIterator(listOfHashObjects);
+	it.next = getNextKey;
 	return it;
 };
