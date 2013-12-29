@@ -89,6 +89,21 @@ int main(){
 		test_deleting_one_element_when_two_are_present();
 	tearDown();
 	testEnded();
+	testStarted("test_iterating_over_hash_map");
+	setup();
+		test_iterating_over_hash_map();
+	tearDown();
+	testEnded();
+	testStarted("test_iterating_when_no_elements_are_present_in_first_bucket");
+	setup();
+		test_iterating_when_no_elements_are_present_in_first_bucket();
+	tearDown();
+	testEnded();
+	testStarted("test_iterating_when_no_more_elements_are_present");
+	setup();
+		test_iterating_when_no_more_elements_are_present();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
