@@ -64,9 +64,30 @@ void test_putting_same_key_twice_should_update_the_value(){
 	ASSERT(0 != strcmp(youCanWin.name,getHashObject(&map,&isbn10)));
 };
 
+void test_putting_key_value_pair_when_hash_map_is_null_should_fail(){
+	Book youCanWin = {10,"YouCanWin"};
+	ASSERT(0 == put(NULL,&isbn10,&youCanWin.name));
+};
+
+void test_putting_when_key_is_null_should_fail(){
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	Book youCanWin = {10,"YouCanWin"};
+	ASSERT(0 == put(&map,NULL,&youCanWin.name));	
+};
+
 void test_getting_element_that_is_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(NULL == getHashObject(&map,&isbn10));
+};
+
+void test_getting_when_map_is_null_should_fail(){
+	ASSERT(NULL == getHashObject(NULL,&isbn10));
+
+};
+
+void test_getting_when_key_is_null_should_fail(){
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	ASSERT(NULL == getHashObject(&map,NULL));
 };
 
 void test_deleting_element_having_specific_key(){
@@ -81,6 +102,16 @@ void test_deleting_element_when_absent(){
 	HashMap map = createHashMap(getHashCode,cmpInt,10);
 	ASSERT(0 == removeHashObject(&map,&isbn11));
 };
+
+void test_deleting_when_key_is_null_should_fail(){
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	ASSERT(0 == removeHashObject(&map,NULL));
+
+};
+
+void test_deleting_when_map_is_null_should_fail(){
+	ASSERT(0 == removeHashObject(NULL,NULL));
+}
 
 void test_deleting_one_element_when_two_are_present(){
 	Book youCanWin = {10,"YouCanWin"};

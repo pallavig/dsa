@@ -45,11 +45,12 @@ int put(HashMap *map,void *key,void *value){
 	List *listOfHashObjects;
 	Object *objectPrevoiuslyPresent,*object;
 	int hash;
+	if(map == NULL || key == NULL) return 0;
 	objectPrevoiuslyPresent = getHashObject(map,key);
 	if(objectPrevoiuslyPresent) objectPrevoiuslyPresent->values = value;
 	object = createObject(key,value);
 	hash = calculateHash(map,key);
-	listOfHashObjects = get(map->buckets,hash);//((ArrayList*)map->buckets)->base[hash];
+	listOfHashObjects = get(map->buckets,hash);
 	insert(listOfHashObjects,object,1);
 	return 1;
 };
@@ -58,7 +59,9 @@ void* getHashObject(HashMap *map,void *key){
 	List *list;
 	Object *object;
 	Iterator it;
-	int hash = calculateHash(map,key);
+	int hash;
+	if(key == NULL || map == NULL) return NULL;
+	hash = calculateHash(map,key);
 	list = get(map->buckets,hash);
 	it = getIterator(list);
 	while(it.hasNext(&it)){
@@ -73,8 +76,9 @@ int removeHashObject(HashMap *map,void *key){
 	List *list;
 	Object *object;
 	Iterator it;
-	int index = 1;
-	int hash = calculateHash(map,key);
+	int index = 1,hash;
+	if(key == NULL || map == NULL) return 0;
+	hash = calculateHash(map,key);
 	list = ((ArrayList*)map->buckets)->base[hash];
 	it = getIterator(list);
 	while(it.hasNext(&it)){
