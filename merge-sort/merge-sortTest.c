@@ -7,6 +7,10 @@ int compareInts(void *first,void *second){
 	return *(int*)first - *(int*)second;
 }
 
+int compareChars(void *first,void *second){
+	return *(char*)first - *(char*)second;
+}
+
 void test_sorting_two_elements_with_merge_sort(){
 	int elements[] = {3,2},sortedElements[] = {2,3};
 	void *elementsToSort[] = {&elements[0],&elements[1]};
@@ -43,4 +47,14 @@ void test_sorting_five_elements(){
 	ASSERT(sortedElements[2] == *(int*)elementsToSort[2]);
 	ASSERT(sortedElements[3] == *(int*)elementsToSort[3]);	
 	ASSERT(sortedElements[4] == *(int*)elementsToSort[4]);	
+};
+
+void test_sorting_characters(){
+	char elements[] = {'b','a','d','c'},sortedElements[] = {'a','b','c','d'};
+	void *elementsToSort[] = {&elements[0],&elements[1],&elements[2],&elements[3]};
+	mSort(elementsToSort,4,compareChars);
+	ASSERT(sortedElements[0] == *(char*)elementsToSort[0]);
+	ASSERT(sortedElements[1] == *(char*)elementsToSort[1]);
+	ASSERT(sortedElements[2] == *(char*)elementsToSort[2]);
+	ASSERT(sortedElements[3] == *(char*)elementsToSort[3]);	
 };
