@@ -6,10 +6,14 @@ void merge(void **left,void **right,int leftLength,int rightLength,int length,vo
 	int i,leftCounter=0,rightCounter=0;
 	for (i=0;i<length;++i)
 	{
-		if(leftCounter > leftLength-1)
+		if(leftCounter > leftLength-1){
 			temp[i] = right[rightCounter];
-		else if(rightCounter>rightLength-1)
+			rightCounter++;
+		}
+		else if(rightCounter>rightLength-1){
 			temp[i] = left[leftCounter];
+			leftCounter++;
+		}
 		else if(compare(left[leftCounter],right[rightCounter]) > 0){
 			temp[i] = right[rightCounter];
 			rightCounter++;
@@ -33,10 +37,10 @@ void mSort(void **base,int length,CompareFunc compare){
 	if(length == 1)
 		return;
 	else{
-		for(i=0;i<mid;i++){
+		for(i=0;i<mid;i++)
 			left[i] = base[i];
-			right[i] = base[mid+(i)];
-		}
+		for(i=mid;i<length;i++)
+			right[i-mid] = base[i];
 		mSort(left,mid,compare);
 		mSort(right,length-mid,compare);
 		merge(left,right,mid,length-mid,length,base,compare);

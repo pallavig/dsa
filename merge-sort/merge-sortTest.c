@@ -24,3 +24,23 @@ void test_sorting_four_elements_with_merge_sort(){
 	ASSERT(sortedElements[2] == *(int*)elementsToSort[2]);
 	ASSERT(sortedElements[3] == *(int*)elementsToSort[3]);
 };
+
+void test_sorting_three_elements(){
+	int elements[] = {3,2,1},sortedElements[] = {1,2,3};
+	void *elementsToSort[] = {&elements[0],&elements[1],&elements[2]};
+	mSort(elementsToSort,3,compareInts);
+	ASSERT(sortedElements[0] == *(int*)elementsToSort[0]);
+	ASSERT(sortedElements[1] == *(int*)elementsToSort[1]);
+	ASSERT(sortedElements[2] == *(int*)elementsToSort[2]);
+};
+
+void test_sorting_five_elements(){
+	int elements[] = {2,3,4,5,1},sortedElements[] = {1,2,3,4,5};
+	void *elementsToSort[] = {&elements[0],&elements[1],&elements[2],&elements[3],&elements[4]};
+	mSort(elementsToSort,5,compareInts);
+	ASSERT(sortedElements[0] == *(int*)elementsToSort[0]);
+	ASSERT(sortedElements[1] == *(int*)elementsToSort[1]);
+	ASSERT(sortedElements[2] == *(int*)elementsToSort[2]);
+	ASSERT(sortedElements[3] == *(int*)elementsToSort[3]);	
+	ASSERT(sortedElements[4] == *(int*)elementsToSort[4]);	
+};
