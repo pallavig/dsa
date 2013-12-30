@@ -57,8 +57,6 @@ Object* getMatchingObject(HashMap *map,void *key,int flag){
 };
 
 void reHash(HashMap *map){
-	int i;
-	List *list;
 	Object *object;
 	Iterator it = keys(map);
 	ArrayList listOfBuckets;
@@ -66,8 +64,6 @@ void reHash(HashMap *map){
 	disposeHashMap(map);
 	map->capacity = map->capacity * 2;
 	createLinkedListInBuckets(map);
-	for(i=0;i<map->capacity;i++)
-		list = get(map->buckets,i);
 	while(dllIterator.hasNext(&dllIterator)){
 		object = dllIterator.next(&dllIterator);
 		put(map,object->key,object->values);

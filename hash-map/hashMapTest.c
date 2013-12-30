@@ -199,4 +199,5 @@ void test_map_should_rehash_when_elements_in_bucket_are_more_than_3(){
 	ASSERT(20 == *(int*)it.next(&it));
 	ASSERT(40 == *(int*)it.next(&it));
 	ASSERT(NULL == it.next(&it));
+	disposeHashMap(&map);
 };
