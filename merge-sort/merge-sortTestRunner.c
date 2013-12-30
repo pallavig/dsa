@@ -74,6 +74,11 @@ int main(){
 		test_sorting_characters();
 	tearDown();
 	testEnded();
+	testStarted("test_sorting_floats");
+	setup();
+		test_sorting_floats();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
