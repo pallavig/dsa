@@ -36,15 +36,13 @@ void mSort(void **base,int length,CompareFunc compare){
 	right = malloc((mid+1)*sizeof(void*));
 	if(length == 1)
 		return;
-	else{
-		for(i=0;i<mid;i++)
-			left[i] = base[i];
-		for(i=mid;i<length;i++)
-			right[i-mid] = base[i];
-		mSort(left,mid,compare);
-		mSort(right,length-mid,compare);
-		merge(left,right,mid,length-mid,length,base,compare);
-	}
+	for(i=0;i<mid;i++)
+		left[i] = base[i];
+	for(i=mid;i<length;i++)
+		right[i-mid] = base[i];
+	mSort(left,mid,compare);
+	mSort(right,length-mid,compare);
+	merge(left,right,mid,length-mid,length,base,compare);
 	free(left);
 	free(right);
 };
