@@ -1,31 +1,29 @@
 #include "merge-sort.h"
 #include <stdlib.h>
 
-void merge(void **left,void **right,int leftLength,int rightLength,int length,void **base,CompareFunc compare){
-	void **temp = malloc(length*2*sizeof(void*));
+void merge(void **left,void **right,int leftLength,int rightLength,void **base,CompareFunc compare){
+	int totalLength  = leftLength + rightLength;
 	int i,leftCounter=0,rightCounter=0;
-	for (i=0;i<length;++i)
+	for (i=0;i<totalLength;++i)
 	{
 		if(leftCounter > leftLength-1){
-			temp[i] = right[rightCounter];
+			base[i] = right[rightCounter];
 			rightCounter++;
+			continue;
 		}
-		else if(rightCounter>rightLength-1){
-			temp[i] = left[leftCounter];
+		if(rightCounter>rightLength-1){
+			base[i] = left[leftCounter];
 			leftCounter++;
+			continue;
 		}
-		else if(compare(left[leftCounter],right[rightCounter]) > 0){
-			temp[i] = right[rightCounter];
+		if(compare(left[leftCounter],right[rightCounter]) > 0){
+			base[i] = right[rightCounter];
 			rightCounter++;
+			continue;
 		}
-		else{
-			temp[i] = left[leftCounter];
-			leftCounter++;
-		}
+		base[i] = left[leftCounter];
+		leftCounter++;
 	}
-	for(i=0;i<length;i++)
-		base[i] = temp[i];
-	free(temp);
 };
 
 void mSort(void **base,int length,CompareFunc compare){
@@ -42,7 +40,7 @@ void mSort(void **base,int length,CompareFunc compare){
 		right[i-mid] = base[i];
 	mSort(left,mid,compare);
 	mSort(right,length-mid,compare);
-	merge(left,right,mid,length-mid,length,base,compare);
+	merge(left,right,mid,length-mid,base,compare);
 	free(left);
 	free(right);
 };
