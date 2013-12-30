@@ -22,6 +22,9 @@ int calculateHash(HashMap *map,void *key){
 
 void createLinkedListInBuckets(HashMap *map){
 	int i;
+	ArrayList listOfBuckets = createArrayList(map->capacity);
+	map->buckets = calloc(1,sizeof(ArrayList));
+	*(ArrayList*)map->buckets = listOfBuckets;
 	for(i=0;i<map->capacity;i++)
 		addInArrayList(map->buckets, create());
 };
@@ -30,17 +33,14 @@ HashMap createHashMap(HashCodeGenerator getHashCode,compareFunc cmp,int capacity
 	HashMap map;
 	int i;
 	List *listOfHashObjects;
-	ArrayList listOfBuckets = createArrayList(capacity);
 	map.getHashCode = getHashCode;
 	map.compare = cmp;
 	map.capacity = capacity;
-	map.buckets = calloc(1,sizeof(ArrayList));
-	*(ArrayList*)map.buckets = listOfBuckets;
 	createLinkedListInBuckets(&map);
 	return map;
 };
 
-Object* getMatchingObject(HashMap *map,void *key){
+Object* getMatchingObject(HashMap *map,void *key,int flag){
 	int hash;
 	List *list;
 	Object *object;
@@ -56,12 +56,40 @@ Object* getMatchingObject(HashMap *map,void *key){
 	return NULL;
 };
 
+void reHash(HashMap *map){
+	int i;
+	List *list;
+	Object *object;
+	Iterator it = keys(map);
+	ArrayList listOfBuckets;
+	Iterator dllIterator = getIterator(it.list);
+	disposeHashMap(map);
+	map->capacity = map->capacity * 2;
+	createLinkedListInBuckets(map);
+	for(i=0;i<map->capacity;i++)
+		list = get(map->buckets,i);
+	while(dllIterator.hasNext(&dllIterator)){
+		object = dllIterator.next(&dllIterator);
+		put(map,object->key,object->values);
+	}
+};
+
+void rehashIfNeeded(HashMap *map){
+	int i;
+	List *listOfHashObjects;
+	for(i=0;i<map->capacity;i++){
+		listOfHashObjects = (List*)get(map->buckets,i);
+		if(listOfHashObjects->length > 3)
+			return reHash(map);
+	}
+};
+
 int put(HashMap *map,void *key,void *value){
 	List *listOfHashObjects;
 	Object *objectPrevoiuslyPresent,*object;
 	int hash;
 	if(map == NULL || key == NULL) return 0;
-	objectPrevoiuslyPresent = getMatchingObject(map,key);
+	objectPrevoiuslyPresent = getMatchingObject(map,key,0);
 	if(objectPrevoiuslyPresent){
 		objectPrevoiuslyPresent->values = value;
 		return 1;
@@ -70,13 +98,14 @@ int put(HashMap *map,void *key,void *value){
 	hash = calculateHash(map,key);
 	listOfHashObjects = get(map->buckets,hash);
 	insert(listOfHashObjects,object,1);
+	rehashIfNeeded(map);
 	return 1;
 };
 
 void* getHashObject(HashMap *map,void *key){
 	Object *object;
 	if(key == NULL || map == NULL) return NULL;
-	object = getMatchingObject(map,key);
+	object = getMatchingObject(map,key,0);
 	return (object)?object->values:NULL;
 };
 

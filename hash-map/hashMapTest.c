@@ -180,3 +180,23 @@ void test_iterating_when_no_more_elements_are_present(){
 	ASSERT(NULL == it.next(&it));
 	disposeHashMap(&map);
 };
+
+void test_map_should_rehash_when_elements_in_bucket_are_more_than_3(){
+	Iterator it;
+	Book youCanWin = {10,"YouCanWin"};
+	Book yayati = {20,"Yayati"};
+	Book swamiAndFriends = {30,"Swami and friends"};
+	Book theSecretSeven = {40,"The Secret Seven"};
+	int isbn30 = 30,isbn40 = 40;
+	HashMap map = createHashMap(getHashCode,cmpInt,10);
+	put(&map,&isbn10,&youCanWin.name);
+	put(&map,&isbn20,&yayati.name);
+	put(&map,&isbn30,&swamiAndFriends.name);
+	put(&map,&isbn40,&theSecretSeven.name);
+	it = keys(&map);
+	ASSERT(10 == *(int*)it.next(&it));
+	ASSERT(30 == *(int*)it.next(&it));
+	ASSERT(20 == *(int*)it.next(&it));
+	ASSERT(40 == *(int*)it.next(&it));
+	ASSERT(NULL == it.next(&it));
+};

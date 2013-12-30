@@ -134,6 +134,11 @@ int main(){
 		test_iterating_when_no_more_elements_are_present();
 	tearDown();
 	testEnded();
+	testStarted("test_map_should_rehash_when_elements_in_bucket_are_more_than_3");
+	setup();
+		test_map_should_rehash_when_elements_in_bucket_are_more_than_3();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
