@@ -79,6 +79,21 @@ int main(){
 		test_sorting_floats();
 	tearDown();
 	testEnded();
+	testStarted("test_sorting_doubles");
+	setup();
+		test_sorting_doubles();
+	tearDown();
+	testEnded();
+	testStarted("test_sorting_structure");
+	setup();
+		test_sorting_structure();
+	tearDown();
+	testEnded();
+	testStarted("test_sorting_duplicate_elements");
+	setup();
+		test_sorting_duplicate_elements();
+	tearDown();
+	testEnded();
 
 	summarizeTestCount();
 	fixtureTearDown();
