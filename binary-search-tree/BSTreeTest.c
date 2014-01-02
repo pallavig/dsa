@@ -171,3 +171,44 @@ void test_deleting_leaf_node(){
 	ASSERT(SUCCESS == search(&tree,&aaa));
 	ASSERT(0 == search(&tree,&bbb));
 };
+
+void test_deleting_node_that_has_only_child_at_left_side(){
+	BSTree tree = createBinarySearchTree(compareDoubles);
+	double data1 = 1.0,data2 = 2.0,data3 = 3.0,data4 = 4.0;
+	insert(&tree,&data2);
+	insert(&tree,&data1);
+	insert(&tree,&data4);
+	insert(&tree,&data3);
+	ASSERT(remove(&tree,&data4));
+	ASSERT(data3 == *(double*)getRight(&tree,&data2));
+};
+
+void test_deleting_node_that_has_only_node_at_right_side(){
+	BSTree tree = createBinarySearchTree(compareDoubles);
+	double data1 = 1.0,data2 = 2.0,data3 = 3.0,data4 = 4.0,data5 = 5.0;
+	insert(&tree,&data2);
+	insert(&tree,&data1);
+	insert(&tree,&data3);
+	insert(&tree,&data5);
+	insert(&tree,&data4);
+	ASSERT(remove(&tree,&data3));
+	ASSERT(data5 == *(double*)getRight(&tree,&data2));
+	ASSERT(data4 == *(double*)getLeft(&tree,&data5));
+}
+
+void test_deleting_node_that_has_two_children(){
+	BSTree tree = createBinarySearchTree(compareInt);
+	int dataOfRoot = 10;
+	int data9 = 9,data8 = 8, data11 = 11, data12 =12,data7 = 7,data13 = 13,data14 = 14;
+	insert(&tree,&dataOfRoot);
+	insert(&tree,&data8);
+	insert(&tree,&data9);
+	insert(&tree,&data7);
+	insert(&tree,&data13);
+	insert(&tree,&data11);
+	insert(&tree,&data14);
+	insert(&tree,&data12);
+	ASSERT(remove(&tree,&data13));
+	ASSERT(data12 == *(int*)getRight(&tree,&dataOfRoot));
+	ASSERT(data11 == *(int*)getLeft(&tree,&data12));
+};

@@ -1,4 +1,5 @@
 typedef int (*CompareFunc)(void *first,void *second);
+
 typedef struct {
 	void *root;
 	CompareFunc compare;
