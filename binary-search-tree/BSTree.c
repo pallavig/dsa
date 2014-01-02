@@ -46,6 +46,10 @@ void *getLeft(BSTree *tree, void *parentData){
 	return matchedNode->data; //if left is null
 };
 
+int search(BSTree *tree,void *data){
+	return (searchNode(tree,data))?1:0;
+};
+
 void *getRight(BSTree *tree, void *parentData){
 	BSTreeNode *node = searchNode(tree,parentData);
 	BSTreeNode *matchedNode = node->right;
