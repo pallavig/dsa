@@ -10,17 +10,14 @@ int compareInt(void* element1, void* element2){
 	return *(int*)element1 - *(int*)element2; 
 };
 
-// typedef struct {
-// 	int number;
-// 	char ch;
-// } Simple;
+typedef struct {
+	int number;
+	char ch;
+} Simple;
 
-// int compareFloats(void* element1,void* element2){
-// 	return *(float*)element1 - *(float*)element2;
-// };
-// int compareStruct(void* element1,void* element2){
-// 	return ((Simple*)element1)->number - ((Simple*)element2)->number;
-// };
+int compareStruct(void* element1,void* element2){
+	return ((Simple*)element1)->number - ((Simple*)element2)->number;
+};
 
 int compareCharacters(void* element1,void* element2){
 	return *(char*)element1 - *(char*)element2;
@@ -132,3 +129,26 @@ void test_search_node_at_depth_one(){
 	ASSERT(SUCCESS == search(&tree,&data3));
 };
 
+void test_searching_structure(){
+	BSTree tree = createBinarySearchTree(compareDoubles);
+	Simple s1 = {1,'a'},s2 = {2,'b'},s3 = {3,'c'};
+	insert(&tree,&s1);
+	insert(&tree,&s3);
+	insert(&tree,&s2);
+	ASSERT(SUCCESS == search(&tree,&s1));
+	ASSERT(SUCCESS == search(&tree,&s3));
+	ASSERT(SUCCESS == search(&tree,&s2));
+};
+
+void test_searching_data_in_empty_tree(){
+	BSTree tree = createBinarySearchTree(compareDoubles);
+	Simple s1 = {1,'a'};
+	ASSERT(0 == search(&tree,&s1));
+};
+
+void test_searching_absent_data_in_tree(){
+	BSTree tree = createBinarySearchTree(compareStruct);
+	Simple s1 = {1,'a'},s2 = {2,'b'};
+	insert(&tree,&s1);
+	ASSERT(0 == search(&tree,&s2));
+};

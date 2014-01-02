@@ -26,18 +26,18 @@ BSTreeNode* createBinarySearchTreeNode(void *data){
 BSTreeNode* searchSpecificNode(BSTreeNode *node,void *parentData,CompareFunc compare){
 	if(0 == compare(node->data,parentData))
 		return node;
-	if(0 < compare(node->data,parentData)){
+	if(0 < compare(node->data,parentData) && node->left !=NULL)
 		return searchSpecificNode(node->left,parentData,compare);
-	}
-	if(0 > compare(node->data,parentData)){
+	if(0 > compare(node->data,parentData) && node->right !=NULL)
 		return searchSpecificNode(node->right,parentData,compare);
-	}
 	return NULL;
 };
 
 BSTreeNode* searchNode(BSTree *tree, void *parentData){
-	BSTreeNode *root = tree->root;
-	return searchSpecificNode(tree->root,parentData,tree->compare);
+	BSTreeNode *root;
+	if(tree->root == NULL) return NULL;
+	root = tree->root;
+	return searchSpecificNode(root,parentData,tree->compare);
 };
 
 void *getLeft(BSTree *tree, void *parentData){
@@ -47,7 +47,8 @@ void *getLeft(BSTree *tree, void *parentData){
 };
 
 int search(BSTree *tree,void *data){
-	return (searchNode(tree,data))?1:0;
+	if(searchNode(tree,data)) return 1;
+	return 0;
 };
 
 void *getRight(BSTree *tree, void *parentData){
