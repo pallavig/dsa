@@ -23,22 +23,21 @@ BSTreeNode* createBinarySearchTreeNode(void *data){
 	return node;
 };
 
-BSTreeNode* searchNode(BSTree *tree, void *parentData){
-	BSTreeNode *root = tree->root;
-	BSTree subTree;
-	if(0 == tree->compare(root->data,parentData))
-		return root;
-	if(0 < tree->compare(root->data,parentData)){
-		subTree.compare = tree->compare;
-		subTree.root = root->left;
-		return searchNode(&subTree,parentData);
+BSTreeNode* searchSpecificNode(BSTreeNode *node,void *parentData,CompareFunc compare){
+	if(0 == compare(node->data,parentData))
+		return node;
+	if(0 < compare(node->data,parentData)){
+		return searchSpecificNode(node->left,parentData,compare);
 	}
-	if(0 > tree->compare(root->data,parentData)){
-		subTree.compare = tree->compare;
-		subTree.root = root->right;
-		return searchNode(&subTree,parentData);	
+	if(0 > compare(node->data,parentData)){
+		return searchSpecificNode(node->right,parentData,compare);
 	}
 	return NULL;
+};
+
+BSTreeNode* searchNode(BSTree *tree, void *parentData){
+	BSTreeNode *root = tree->root;
+	return searchSpecificNode(tree->root,parentData,tree->compare);
 };
 
 void *getLeft(BSTree *tree, void *parentData){
@@ -52,7 +51,6 @@ void *getRight(BSTree *tree, void *parentData){
 	BSTreeNode *matchedNode = node->right;
 	return matchedNode->data; //if right is null
 };
-
 
 int insertNode(BSTreeNode *subtree,BSTreeNode *node,CompareFunc compare){
 	if(0 > compare(subtree->data,node->data)){
