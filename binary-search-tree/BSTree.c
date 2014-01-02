@@ -5,7 +5,6 @@ typedef struct bstreenode{
 	void *data;
 	struct bstreenode *left;
 	struct bstreenode *right;
-	struct bstreenode *parent;
 } BSTreeNode;
 
 BSTree createBinarySearchTree(CompareFunc compare) {
@@ -80,4 +79,15 @@ int insert(BSTree* tree,void *data){
 		return 1;
 	}
 	return insertNode(tree->root,node,tree->compare);
+};
+
+int remove(BSTree *tree,void *data){
+	BSTreeNode *node = tree->root;
+	BSTreeNode *nodeToBeDeleted;
+	if(0 == tree->compare(node->data,data)){
+		free(tree->root);
+		tree->root = NULL;
+		return 1;
+	}
+	return 0;
 };

@@ -152,3 +152,22 @@ void test_searching_absent_data_in_tree(){
 	insert(&tree,&s1);
 	ASSERT(0 == search(&tree,&s2));
 };
+
+void test_deleting_root_node_when_have_no_children(){
+	BSTree tree = createBinarySearchTree(compareDoubles);
+	double data1 = 1.0;
+	insert(&tree,&data1);
+	ASSERT(SUCCESS == search(&tree,&data1));
+	ASSERT(remove(&tree,&data1));
+	ASSERT(0 == search(&tree,&data1));
+};
+
+void test_deleting_leaf_node(){
+	BSTree tree = createBinarySearchTree(compareStrings);
+	String aaa = "aaa",bbb = "bbb";
+	insert(&tree,&aaa);
+	insert(&tree,&bbb);
+	ASSERT(remove(&tree,&bbb));
+	ASSERT(SUCCESS == search(&tree,&aaa));
+	ASSERT(0 == search(&tree,&bbb));
+};
