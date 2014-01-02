@@ -1,0 +1,5 @@
+createScaffold.sh
+*.o
+*.exe
+*.core
+BSTreeTestRunner.c
